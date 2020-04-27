@@ -25,6 +25,10 @@ export class BarChartComponent implements OnChanges {
     this.createChart();
   }
 
+  onResize() {
+    this.createChart();
+  }
+
   private createChart(): void {
     d3.select('svg').remove();
 
