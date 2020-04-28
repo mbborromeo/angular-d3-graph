@@ -1,6 +1,6 @@
 export interface DataModel {
   //letter: string;
   //frequency: number;
-  state: string; // prname
-  cases: number; // numconf
+  prname: string; // state
+  numconf: number; // cases
 }

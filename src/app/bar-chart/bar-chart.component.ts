@@ -58,12 +58,12 @@ export class BarChartComponent implements OnChanges {
       .scaleBand()
       .rangeRound([0, contentWidth])
       .padding(0.1)
-      .domain(data.map(d => d.state));
+      .domain(data.map(d => d.prname));
 
     const y = d3
       .scaleLinear()
       .rangeRound([contentHeight, 0])
-      .domain([0, d3.max(data, d => d.cases)]);
+      .domain([0, d3.max(data, d => d.numconf)]);
 
     const g = svg.append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
@@ -87,10 +87,10 @@ export class BarChartComponent implements OnChanges {
       .data(data)
       .enter().append('rect')
         .attr('class', 'bar')
-        .attr('x', d => x(d.state))
-        .attr('y', d => y(d.cases))
+        .attr('x', d => x(d.prname))
+        .attr('y', d => y(d.numconf))
         .attr('width', x.bandwidth())
-        .attr('height', d => contentHeight - y(d.cases));
+        .attr('height', d => contentHeight - y(d.numconf));
   }
 
 }

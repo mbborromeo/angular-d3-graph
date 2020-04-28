@@ -28,12 +28,17 @@ export class AppComponent {
     //   ); 
 
     // do I need to use a different http method to fetch a CSV file?
-
+    
     this.data = d3.csv('../assets/covid19.csv').then( function (data){
       console.log('covid CSV data is', data);
       console.log('state and cases field names', data.columns[1], data.columns[4]);
       console.log('2nd data entry', data[1]);
+
+      return data; // d3.csv returns a promise, so need a return statement
     });
+
+    // simplified
+    // this.data = d3.csv('../assets/covid19.csv');
 
     // this.data = dsv.parseRows('../assets/covid19.csv');    
 
