@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Following online tutorial 'Creating a responsive graph with Angular and D3' by Jean-Philippe Lemieux (https://medium.com/@jeanphilippelemieux/creating-a-responsive-graph-with-angular-and-d3-b45bb8065588).
 
-However, using a CSV file from Public Health Infobase Canada (https://health-infobase.canada.ca/) to get COVID-19 number of cases per state data, instead of a local JSON file.
+However, using a CSV file from Public Health Infobase Canada (https://health-infobase.canada.ca/covid-19/) to get COVID-19 number of cases per state data, instead of a local JSON file.
 
 ## Development server
 
