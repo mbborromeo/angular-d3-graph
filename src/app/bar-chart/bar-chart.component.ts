@@ -9,23 +9,34 @@ import { DataModel } from 'src/app/data/data.model';
   styleUrls: ['./bar-chart.component.scss']
 })
 export class BarChartComponent implements OnChanges {
+  // Angular 8 ViewChild takes 2 parameters: https://stackoverflow.com/questions/56704164/angular-viewchild-error-expected-2-arguments-but-got-1
   @ViewChild('chart', {static: false}) 
   private chartContainer: ElementRef;
 
   @Input()
-  data: DataModel[];
+  data: DataModel[]; //array of DataModel objects
 
   margin = {top: 20, right: 20, bottom: 30, left: 40};
 
-  constructor() { }
+  constructor() {
+    console.log('constructor BarChart')
+    // for testing only - delete this line after
+    //this.createChart();
+  }
 
   ngOnChanges(): void {
-    if (!this.data) { return; }
-
-    this.createChart();
+    console.log('BarChart ngOnChanges!!!!')
+    if (!this.data) { 
+      console.log('this.data is empty', this.data)
+      return; //exit
+    } 
+    
+    console.log('this.data has content', this.data)
+    this.createChart();    
   }
 
   onResize() {
+    console.log('onResize')
     this.createChart();
   }
 
@@ -34,6 +45,7 @@ export class BarChartComponent implements OnChanges {
 
     const element = this.chartContainer.nativeElement;
     const data = this.data;
+    console.log('createChart data is ', data);
 
     const svg = d3.select(element).append('svg')
         .attr('width', element.offsetWidth)
@@ -46,12 +58,12 @@ export class BarChartComponent implements OnChanges {
       .scaleBand()
       .rangeRound([0, contentWidth])
       .padding(0.1)
-      .domain(data.map(d => d.letter));
+      .domain(data.map(d => d.state));
 
     const y = d3
       .scaleLinear()
       .rangeRound([contentHeight, 0])
-      .domain([0, d3.max(data, d => d.frequency)]);
+      .domain([0, d3.max(data, d => d.cases)]);
 
     const g = svg.append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
@@ -69,16 +81,16 @@ export class BarChartComponent implements OnChanges {
         .attr('y', 6)
         .attr('dy', '0.71em')
         .attr('text-anchor', 'end')
-        .text('Frequency');
+        .text('Confirmed Cases');
 
     g.selectAll('.bar')
       .data(data)
       .enter().append('rect')
         .attr('class', 'bar')
-        .attr('x', d => x(d.letter))
-        .attr('y', d => y(d.frequency))
+        .attr('x', d => x(d.state))
+        .attr('y', d => y(d.cases))
         .attr('width', x.bandwidth())
-        .attr('height', d => contentHeight - y(d.frequency));
+        .attr('height', d => contentHeight - y(d.cases));
   }
 
 }
