@@ -10,7 +10,7 @@ import { DataModel } from 'src/app/data/data.model';
 })
 export class BarChartComponent implements OnChanges {
   // Angular 8 ViewChild takes 2 parameters: https://stackoverflow.com/questions/56704164/angular-viewchild-error-expected-2-arguments-but-got-1
-  @ViewChild('chart', {static: false}) 
+  @ViewChild('chart', {static: false})
   private chartContainer: ElementRef;
 
   @Input()
