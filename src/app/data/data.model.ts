@@ -3,4 +3,5 @@ export interface DataModel {
   //frequency: number;
   prname: string; // state
   numconf: number; // cases
+  date: string;
 }

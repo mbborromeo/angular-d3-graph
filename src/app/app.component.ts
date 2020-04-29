@@ -34,7 +34,8 @@ export class AppComponent {
       console.log('state and cases field names', data.columns[1], data.columns[4]);
       console.log('2nd data entry', data[1]);
 
-      return data; // d3.csv returns a promise, so need a return statement
+      // filter out British Columbia only
+      return data.filter(d => d.pruid==59); // data, d3.csv returns a promise, so need a return statement
     });
 
     // simplified
