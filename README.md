@@ -1,10 +1,13 @@
 # AngularD3
 
+Live project URL:
+https://mbborromeo.github.io/angular-d3-graph/
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.1.
 
-Following online tutorial 'Creating a responsive graph with Angular and D3' by Jean-Philippe Lemieux (https://medium.com/@jeanphilippelemieux/creating-a-responsive-graph-with-angular-and-d3-b45bb8065588).
+I heavily referred to the online tutorial 'Creating a responsive graph with Angular and D3' by Jean-Philippe Lemieux (https://medium.com/@jeanphilippelemieux/creating-a-responsive-graph-with-angular-and-d3-b45bb8065588).
 
-However, using a CSV file from Public Health Infobase Canada (https://health-infobase.canada.ca/covid-19/) to get COVID-19 number of cases per state data, instead of a local JSON file.
+However, I used a CSV file from Public Health Infobase Canada (https://health-infobase.canada.ca/covid-19/) to get COVID-19 number of cases per state data, instead of a local JSON file.
 
 ## Development server
 
