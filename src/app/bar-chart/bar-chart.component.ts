@@ -58,7 +58,7 @@ export class BarChartComponent implements OnChanges {
       .scaleBand()
       .rangeRound([0, contentWidth])
       .padding(0.1)
-      .domain( data.map(d => d.date) ); // map so grouped together and displayed as one
+      .domain( data.map(d => d.prname) ); // map so grouped together and displayed as one
 
     const y = d3
       .scaleLinear()
@@ -87,7 +87,7 @@ export class BarChartComponent implements OnChanges {
       .data(data)
       .enter().append('rect')
         .attr('class', 'bar')
-        .attr('x', d => x(d.date))
+        .attr('x', d => x(d.prname))
         .attr('y', d => y(d.numconf))
         .attr('width', x.bandwidth())
         .attr('height', d => contentHeight - y(d.numconf));

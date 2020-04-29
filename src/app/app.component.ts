@@ -35,8 +35,10 @@ export class AppComponent {
       console.log('2nd data entry', data[1]);
 
       // filter out British Columbia only
-      return data.filter(d => d.pruid==59); // data, d3.csv returns a promise, so need a return statement
+      return data.filter(d => d.date=='15-03-2020'); // d.pruid==59, data, d3.csv returns a promise, so need a return statement
     });
+
+    // this.data = d3.csvParse( await FileAttachment('../assets/covid19.csv').text(), d3.autoType )
 
     // simplified
     // this.data = d3.csv('../assets/covid19.csv');
