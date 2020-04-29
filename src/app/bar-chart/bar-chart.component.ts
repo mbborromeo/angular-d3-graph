@@ -46,24 +46,30 @@ export class BarChartComponent implements OnChanges {
     const element = this.chartContainer.nativeElement;
     const data = this.data;
     console.log('createChart data is ', data);
+    const arrayOfNumconf = data.map( d => d.numconf );
+    // 300, change to dynamic value using max
+    const dataMaxValue = arrayOfNumconf.reduce( function (a, b){
+        return Math.max(a, b);
+    }); 
 
-    const svg = d3.select(element).append('svg')
-        .attr('width', element.offsetWidth)
-        .attr('height', element.offsetHeight);
+    const svg = d3.select(element)
+      .append('svg')
+      .attr('width', element.offsetWidth)
+      .attr('height', dataMaxValue); // element.offsetHeight
 
     const contentWidth = element.offsetWidth - this.margin.left - this.margin.right;
-    const contentHeight = element.offsetHeight - this.margin.top - this.margin.bottom;
+    const contentHeight = dataMaxValue - this.margin.top - this.margin.bottom; // element.offsetHeight - 
 
     const x = d3
       .scaleBand()
       .rangeRound([0, contentWidth])
       .padding(0.1)
-      .domain(data.map(d => d.prname));
+      .domain( data.map(d => d.prname) ); // map so grouped together and displayed as one
 
     const y = d3
       .scaleLinear()
       .rangeRound([contentHeight, 0])
-      .domain([0, d3.max(data, d => d.numconf)]);
+      .domain( [0, dataMaxValue] ); // [0, d3.max(data, d => d.numconf)]
 
     const g = svg.append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
@@ -75,7 +81,7 @@ export class BarChartComponent implements OnChanges {
 
     g.append('g')
       .attr('class', 'axis axis--y')
-      .call(d3.axisLeft(y).ticks(10, '%'))
+      .call(d3.axisLeft(y)) // d3.axisLeft(y).ticks(10, '%')
       .append('text')
         .attr('transform', 'rotate(-90)')
         .attr('y', 6)
