@@ -29,7 +29,7 @@ export class AppComponent {
 
     // do I need to use a different http method to fetch a CSV file?
     
-    this.data = d3.csv('./assets/covid19.csv').then( function (data){
+    this.data = d3.csv('/angular-d3-graph/assets/covid19.csv').then( function (data){
       console.log('covid CSV data is', data);
       console.log('state and cases field names', data.columns[1], data.columns[4]);
       console.log('2nd data entry', data[1]);
