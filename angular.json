@@ -10,7 +10,7 @@
           "style": "scss"
         }
       },
-      "root": "",
+      "root": "angular-d3-graph/",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
