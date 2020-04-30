@@ -35,6 +35,11 @@ MIT
 @angular/router
 MIT
 
+<<<<<<< HEAD
+=======
+angular-d3
+
+>>>>>>> 23f757fe5ff3532ef642430a6acd02fbc2c3f3f8
 core-js
 MIT
 Copyright (c) 2014-2020 Denis Pushkarev
