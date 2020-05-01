@@ -19,15 +19,20 @@ export class AppComponent {
   constructor(private http: HttpClient) {
     console.log('AppComponent constructor here!!!!');    
 
+    const CANADA_ID: number = 1;
+    const REPAT_TRVLRS_ID: number = 99;
+    let dateOfInterest: string = '21-03-2020'; // ''
+
     // using cors-anywhere as a proxy to access the external CSV file
+    // d3.csv returns a promise, so needs a return statement inside
     this.data = d3.csv(`https://cors-anywhere.herokuapp.com/${ this.csvUrl }`)
       .then( function (data){
         console.log('covid CSV data is', data);
-        console.log('state and cases field names', data.columns[1], data.columns[4]);
-        console.log('2nd data entry', data[1]);
 
-        // filter out British Columbia only
-        return data.filter(d => d.date=='21-03-2020' && parseInt(d.pruid)!==1 && parseInt(d.pruid)!==99 ); // d.pruid==59, data, d3.csv returns a promise, so need a return statement
+        //dateOfInterest = '21-03-2020';
+        
+        // filter: remove Canada and Repatriated Travellers, and specify date of interest
+        return data.filter(d => d.date==dateOfInterest && parseInt(d.pruid)!==CANADA_ID && parseInt(d.pruid)!==REPAT_TRVLRS_ID ); 
       });
 
     // , d3.autoType or use dsv.autoType as arg to a dsv function
