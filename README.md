@@ -29,6 +29,9 @@ ng build --prod --base-href /angular-d3-graph/
 Then add/commit changes and push to origin master branch.
 Then in GitHub, set up 'master docs' for the GitHub Pages.
 
+Resource: 
+https://angular.io/guide/deployment#deploy-to-github-pages
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
