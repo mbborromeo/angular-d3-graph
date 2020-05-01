@@ -20,8 +20,6 @@ export class BarChartComponent implements OnChanges {
 
   constructor() {
     console.log('constructor BarChart')
-    // for testing only - delete this line after
-    //this.createChart();
   }
 
   ngOnChanges(): void {
@@ -46,6 +44,7 @@ export class BarChartComponent implements OnChanges {
     const element = this.chartContainer.nativeElement;
     const data = this.data;
     console.log('createChart data is ', data);
+    
     const arrayOfNumconf = data.map( d => d.numconf );
     // 300, change to dynamic value using max
     const dataMaxValue = arrayOfNumconf.reduce( function (a, b){

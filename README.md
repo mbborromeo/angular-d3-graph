@@ -43,3 +43,11 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## To Do
+
+- In D3.js graph, show all provinces for latest date, and maybe have drop down to select previous dates
+- Or maybe only show one province (at a time), but have buttons to switch between provinces
+- Could swap graph axis so that y-axis are the running dates from newest to oldest, and x-axis is the number of cases
+- Try building a proxy to allow Cross-Origin fetching of resources
+
