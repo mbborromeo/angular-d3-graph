@@ -12,16 +12,16 @@ import * as d3 from 'd3';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  //data: Observable<DataModel>;
-  data: any;
+  data: any; // : Observable<DataModel>
   csvUrl: string = 'https://health-infobase.canada.ca/src/data/covidLive/covid19.csv';
 
   constructor(private http: HttpClient) {
     console.log('AppComponent constructor here!!!!');    
 
-    const CANADA_ID: number = 1;
-    const REPAT_TRVLRS_ID: number = 99;
-    let dateOfInterest: string = '21-03-2020'; // ''
+    const BC_ID: number = 59;
+    // const CANADA_ID: number = 1;    
+    // const REPAT_TRVLRS_ID: number = 99;
+    // let dateOfInterest: string = '21-03-2020'; // ''
 
     // using cors-anywhere as a proxy to access the external CSV file
     // d3.csv returns a promise, so needs a return statement inside
@@ -32,7 +32,8 @@ export class AppComponent {
         //dateOfInterest = '21-03-2020';
         
         // filter: remove Canada and Repatriated Travellers, and specify date of interest
-        return data.filter(d => d.date==dateOfInterest && parseInt(d.pruid)!==CANADA_ID && parseInt(d.pruid)!==REPAT_TRVLRS_ID ); 
+        //return data.filter(d => d.date==dateOfInterest && parseInt(d.pruid)!==CANADA_ID && parseInt(d.pruid)!==REPAT_TRVLRS_ID );
+        return data.filter( d => parseInt(d.pruid)==BC_ID ); 
       });
 
     // , d3.autoType or use dsv.autoType as arg to a dsv function

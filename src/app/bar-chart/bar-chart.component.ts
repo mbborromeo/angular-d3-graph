@@ -45,11 +45,11 @@ export class BarChartComponent implements OnChanges {
     const data = this.data;
     console.log('createChart data is ', data);
     
-    const arrayOfNumconf = data.map( d => d.numconf );
     // find max number of confirmed cases to set corresponding max height of graph
-    const dataMaxValue = arrayOfNumconf.reduce( function (a, b){
-        return Math.max(a, b);
-    }); 
+    const dataMaxValue = data.map( d => d.numconf )
+      .reduce( function (a, b){
+          return Math.max(a, b);
+      }); 
 
     const svg = d3.select(element)
       .append('svg')
@@ -63,7 +63,7 @@ export class BarChartComponent implements OnChanges {
       .scaleBand()
       .rangeRound([0, contentWidth])
       .padding(0.1)
-      .domain( data.map(d => d.prname) ); // map so grouped together and displayed as one
+      .domain( data.map(d => d.date) ); // d => d.prname
 
     const y = d3
       .scaleLinear()
@@ -92,7 +92,7 @@ export class BarChartComponent implements OnChanges {
       .data(data)
       .enter().append('rect')
         .attr('class', 'bar')
-        .attr('x', d => x(d.prname))
+        .attr('x', d => x(d.date)) // x(d.prname)
         .attr('y', d => y(d.numconf))
         .attr('width', x.bandwidth())
         .attr('height', d => contentHeight - y(d.numconf));
