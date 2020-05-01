@@ -33,7 +33,7 @@ export class AppComponent {
         
         // filter: remove Canada and Repatriated Travellers, and specify date of interest
         //return data.filter(d => d.date==dateOfInterest && parseInt(d.pruid)!==CANADA_ID && parseInt(d.pruid)!==REPAT_TRVLRS_ID );
-        return data.filter( d => parseInt(d.pruid)==BC_ID ); 
+        return data.filter( d => parseInt(d.pruid)===BC_ID ); 
       });
 
     // , d3.autoType or use dsv.autoType as arg to a dsv function
