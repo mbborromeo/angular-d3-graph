@@ -47,7 +47,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## To Do
 
 - In D3.js graph, show all provinces for latest date, and maybe have drop down to select previous dates
-- Or maybe only show one province (at a time), but have buttons to switch between provinces
+- Or maybe only show one province with a range of dates, but have buttons to switch between provinces
 - Could swap graph axis so that y-axis are the running dates from newest to oldest, and x-axis is the number of cases
 - Try building a proxy to allow Cross-Origin fetching of resources
-
+- Set up 404 error page and route

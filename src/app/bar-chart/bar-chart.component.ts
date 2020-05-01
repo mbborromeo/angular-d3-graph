@@ -46,7 +46,7 @@ export class BarChartComponent implements OnChanges {
     console.log('createChart data is ', data);
     
     const arrayOfNumconf = data.map( d => d.numconf );
-    // 300, change to dynamic value using max
+    // find max number of confirmed cases to set corresponding max height of graph
     const dataMaxValue = arrayOfNumconf.reduce( function (a, b){
         return Math.max(a, b);
     }); 
