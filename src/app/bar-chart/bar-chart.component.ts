@@ -106,7 +106,7 @@ export class BarChartComponent implements OnChanges {
     const svg = d3.select(element)
       .append('svg')
       .attr('width', element.offsetWidth)
-      .attr('height', numconfMax); // element.offsetHeight
+      .attr('height', element.offsetHeight); // numconfMax
 
     const contentWidth = element.offsetWidth - this.margin.left - this.margin.right;
     const contentHeight = element.offsetHeight - this.margin.top - this.margin.bottom; // numconfMax - 
