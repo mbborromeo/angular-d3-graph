@@ -38,15 +38,66 @@ export class BarChartComponent implements OnChanges {
     this.createChart();
   }
 
+  private reformatDateYMD( dmy ): string {
+    let newdate = dmy.split("-").reverse().join("-");
+    return newdate;
+  }
+
+  private formatDateDMY( ymd ): string {
+    let day = ymd.getDate();
+    if( day < 10 ){
+      day = '0' + day;
+    }
+
+    let month = ymd.getMonth() + 1;
+    if( month < 10 ){
+      month = '0' + month;
+    }
+
+    const year = ymd.getFullYear();
+
+    const newdate = day + '-' + month + '-' + year;
+
+    return newdate;
+  }
+
   private createChart(): void {
     d3.select('svg').remove();
 
     const element = this.chartContainer.nativeElement;
+
     const data = this.data;
     console.log('createChart data is ', data);
+
+    // filter out dates so only every 7th
+    const dateValuesOnly = data.map( d => this.reformatDateYMD(d.date) ); // => new Date(d.date)
+    console.log('dateValuesOnly', dateValuesOnly)
+
+    const dateMin = dateValuesOnly.reduce( function (a, b) { return a<b ? a:b; } ); // Math.min.apply(null, dateValuesOnly)
+    console.log('dateMin', dateMin)
+
+    const dateMax = dateValuesOnly.reduce( function (a, b) { return a>b ? a:b; } ); // Math.max.apply(null, dateValuesOnly)
+    console.log('dateMax', dateMax)
+
+    const datesEvery7Days = d3.timeDay.every(7).range( new Date(dateMin), new Date(dateMax) ); 
+    console.log('datesEvery7Days', datesEvery7Days)
+
+    const datesEvery7DaysDMYarray = datesEvery7Days.map( i => this.formatDateDMY(i) );
+    console.log('datesEvery7DaysDMYarray', datesEvery7DaysDMYarray)
+    
+    // works but for es7 only
+    // const dataOnlyWithWeeklyDates = data.filter( function(item) {
+    //   return datesEvery7DaysDMYarray.includes(item.date); 
+    // });
+    const dataOnlyWithWeeklyDates = data.filter( 
+      d => datesEvery7DaysDMYarray.indexOf( d.date ) > 0  //indexOf: if no match return -1, if match return index > 0
+    );
+
+    console.log('orig data', data)
+    console.log('dataOnlyWithWeeklyDates', dataOnlyWithWeeklyDates)
     
     // find max number of confirmed cases to set corresponding max height of graph
-    const dataMaxValue = data.map( d => d.numconf )
+    const numconfMax = dataOnlyWithWeeklyDates.map( d => d.numconf )
       .reduce( function (a, b){
           return Math.max(a, b);
       }); 
@@ -54,19 +105,19 @@ export class BarChartComponent implements OnChanges {
     const svg = d3.select(element)
       .append('svg')
       .attr('width', element.offsetWidth)
-      .attr('height', dataMaxValue); // element.offsetHeight
+      .attr('height', numconfMax); // element.offsetHeight
 
     const contentWidth = element.offsetWidth - this.margin.left - this.margin.right;
-    const contentHeight = element.offsetHeight - this.margin.top - this.margin.bottom; // dataMaxValue - 
+    const contentHeight = element.offsetHeight - this.margin.top - this.margin.bottom; // numconfMax - 
 
     const x = d3.scaleBand()
       .rangeRound([0, contentWidth])
       .padding(0.1)
-      .domain( data.map(d => d.date) ); // d => d.prname
+      .domain( dataOnlyWithWeeklyDates.map(d => d.date) ); // d => d.prname
 
     const y = d3.scaleLinear()
       .rangeRound([contentHeight, 0])
-      .domain( [0, dataMaxValue] ); // [0, d3.max(data, d => d.numconf)]
+      .domain( [0, numconfMax] ); // [0, d3.max(data, d => d.numconf)]
 
     const g = svg.append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
@@ -84,7 +135,7 @@ export class BarChartComponent implements OnChanges {
       .attr('text-anchor', 'end')
       .text('Confirmed Cases');
 
-    g.selectAll('.bar').data(data)
+    g.selectAll('.bar').data(dataOnlyWithWeeklyDates)
       .enter().append('rect')
       .attr('class', 'bar')
       .attr('x', d => x(d.date)) // x(d.prname)
@@ -92,5 +143,4 @@ export class BarChartComponent implements OnChanges {
       .attr('width', x.bandwidth())
       .attr('height', d => contentHeight - y(d.numconf));
   }
-
 }
