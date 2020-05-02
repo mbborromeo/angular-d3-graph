@@ -51,3 +51,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 - Could swap graph axis so that y-axis are the running dates from newest to oldest, and x-axis is the number of cases
 - Try building a proxy to allow Cross-Origin fetching of resources
 - Set up 404 error page and route
+- Add a loading graphic while CSV is being fetched (can be slow going through a proxy)
