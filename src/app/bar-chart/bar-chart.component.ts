@@ -61,6 +61,29 @@ export class BarChartComponent implements OnChanges {
     return newdate;
   }
 
+  private filterDataAsWeekly( inputData ): Array<any> {
+    // filter out dates so only every 7th
+    const dateValuesOnly = inputData.map( d => this.reformatDateYMD(d.date) );
+
+    const dateMin = dateValuesOnly.reduce( function (a, b) { return a<b ? a:b; } ); // Math.min.apply(null, dateValuesOnly)
+    
+    const dateMax = dateValuesOnly.reduce( function (a, b) { return a>b ? a:b; } ); // Math.max.apply(null, dateValuesOnly)
+    
+    const datesEvery7Days = d3.timeDay.every(7).range( new Date(dateMin), new Date(dateMax) );
+
+    const datesEvery7DaysDMYarray = datesEvery7Days.map( i => this.formatDateDMY(i) );
+    
+    // works but for es7 only
+    // const dataOnlyWithWeeklyDates = data.filter( function(item) {
+    //   return datesEvery7DaysDMYarray.includes(item.date); 
+    // });
+    const dataOnlyWithWeeklyDates = inputData.filter( 
+      d => datesEvery7DaysDMYarray.indexOf( d.date ) > 0  // indexOf: if no match return -1, if match return index > 0
+    );
+
+    return dataOnlyWithWeeklyDates;
+  }
+
   private createChart(): void {
     d3.select('svg').remove();
 
@@ -69,35 +92,13 @@ export class BarChartComponent implements OnChanges {
     const data = this.data;
     console.log('createChart data is ', data);
 
-    // filter out dates so only every 7th
-    const dateValuesOnly = data.map( d => this.reformatDateYMD(d.date) ); // => new Date(d.date)
-    console.log('dateValuesOnly', dateValuesOnly)
-
-    const dateMin = dateValuesOnly.reduce( function (a, b) { return a<b ? a:b; } ); // Math.min.apply(null, dateValuesOnly)
-    console.log('dateMin', dateMin)
-
-    const dateMax = dateValuesOnly.reduce( function (a, b) { return a>b ? a:b; } ); // Math.max.apply(null, dateValuesOnly)
-    console.log('dateMax', dateMax)
-
-    const datesEvery7Days = d3.timeDay.every(7).range( new Date(dateMin), new Date(dateMax) ); 
-    console.log('datesEvery7Days', datesEvery7Days)
-
-    const datesEvery7DaysDMYarray = datesEvery7Days.map( i => this.formatDateDMY(i) );
-    console.log('datesEvery7DaysDMYarray', datesEvery7DaysDMYarray)
-    
-    // works but for es7 only
-    // const dataOnlyWithWeeklyDates = data.filter( function(item) {
-    //   return datesEvery7DaysDMYarray.includes(item.date); 
-    // });
-    const dataOnlyWithWeeklyDates = data.filter( 
-      d => datesEvery7DaysDMYarray.indexOf( d.date ) > 0  //indexOf: if no match return -1, if match return index > 0
-    );
+    const dataWeekly = this.filterDataAsWeekly( data );
 
     console.log('orig data', data)
-    console.log('dataOnlyWithWeeklyDates', dataOnlyWithWeeklyDates)
+    console.log('dataWeekly', dataWeekly)
     
     // find max number of confirmed cases to set corresponding max height of graph
-    const numconfMax = dataOnlyWithWeeklyDates.map( d => d.numconf )
+    const numconfMax = dataWeekly.map( d => d.numconf )
       .reduce( function (a, b){
           return Math.max(a, b);
       }); 
@@ -113,7 +114,7 @@ export class BarChartComponent implements OnChanges {
     const x = d3.scaleBand()
       .rangeRound([0, contentWidth])
       .padding(0.1)
-      .domain( dataOnlyWithWeeklyDates.map(d => d.date) ); // d => d.prname
+      .domain( dataWeekly.map(d => d.date) ); // d => d.prname
 
     const y = d3.scaleLinear()
       .rangeRound([contentHeight, 0])
@@ -135,7 +136,7 @@ export class BarChartComponent implements OnChanges {
       .attr('text-anchor', 'end')
       .text('Confirmed Cases');
 
-    g.selectAll('.bar').data(dataOnlyWithWeeklyDates)
+    g.selectAll('.bar').data(dataWeekly)
       .enter().append('rect')
       .attr('class', 'bar')
       .attr('x', d => x(d.date)) // x(d.prname)
