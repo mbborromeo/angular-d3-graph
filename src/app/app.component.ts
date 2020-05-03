@@ -4,7 +4,6 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { DataModel } from './data/data.model';
 import * as d3 from 'd3';
-// import * as dsv from 'd3-dsv';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +11,9 @@ import * as d3 from 'd3';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  data: any; // : Observable<DataModel>
+  data: any; // Observable<DataModel>
   csvUrl: string = 'https://health-infobase.canada.ca/src/data/covidLive/covid19.csv';
-
+  
   constructor(private http: HttpClient) {
     console.log('AppComponent constructor here!!!!');    
 
@@ -34,8 +33,7 @@ export class AppComponent {
         // filter: remove Canada and Repatriated Travellers, and specify date of interest
         //return data.filter(d => d.date==dateOfInterest && parseInt(d.pruid)!==CANADA_ID && parseInt(d.pruid)!==REPAT_TRVLRS_ID );
         // var i = d3.timeDay.filter(function(d) { return (d.getDate() - 1) % 10 === 0; });
-        return data.filter( d => parseInt(d.pruid)===BC_ID ); 
-                
+        return data.filter( d => parseInt(d.pruid)===BC_ID );                 
       });
 
     // , d3.autoType or use dsv.autoType as arg to a dsv function

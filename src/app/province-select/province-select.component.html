@@ -1,0 +1,29 @@
+<select>
+  <option value="59" selected>British Columbia</option>
+  <option value="48">Alberta</option>
+  <option value="47">Saskatchewan</option>
+  <option value="46">Manitoba</option>
+  <option value="35">Ontario</option>
+  <option value="24">Quebec</option>
+  <option value="13">New Brunswick</option>
+  <option value="10">Newfoundland and Labrador</option>
+  <option value="12">Nova Scotia</option>
+  <option value="11">Prince Edward Island</option>
+  <option value="61">Northwest Territories</option>
+  <option value="62">Nunavut</option>
+  <option value="60">Yukon</option>
+  <option value="1">CANADA</option>
+</select>
+
+<form [formGroup]="provinceForm">
+  <select formControlName="province" (change)="onChange( $event )">
+    <option value="">Please select province</option>
+    <option *ngFor="let prv of provinceArray">{{prv}}</option>
+  </select>
+</form>
+
+<!-- 
+<p>
+  Province selected: {{ province.value }} 
+</p>
+-->
