@@ -1,1 +1,7 @@
-<div #chart id="chart" (window:resize)="onResize()"></div>
+<div *ngIf="!data">
+  No data
+</div>
+
+<div *ngIf="data">
+  <div #chart id="chart" (window:resize)="onResize()"></div>
+</div>

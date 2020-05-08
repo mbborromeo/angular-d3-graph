@@ -1,7 +1,10 @@
 <h1>Number of COVID-19 cases in</h1>
 
-<app-province-select></app-province-select>
+<app-province-select (selected)="onSelect( $event )"></app-province-select>
 
-<app-bar-chart [data]="data | async"></app-bar-chart>
+<div *ngIf="loading===true && provinceID!==undefined">Loading GRAPH...</div>
+<div *ngIf="loading===false && provinceID!==undefined">
+  <app-bar-chart [data]="data | async"></app-bar-chart>
+</div>
 
 <router-outlet></router-outlet>

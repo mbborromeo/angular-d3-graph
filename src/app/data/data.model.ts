@@ -1,7 +1,16 @@
 export interface DataModel {
-  //letter: string;
-  //frequency: number;
+  pruid: string;
   prname: string; // state
-  numconf: number; // cases
+  // prnameFR: string;
   date: string;
+  numconf: number; // cases
+  // numprob: string;
+  // numdeaths: string;
+  // numtotal: string;
+  // numtested: string;
+  // numrecover: string;
+  // percentrecover: string;
+  // ratetested: string;
+  // numtoday: string;
+  // percentoday: string;  
 }

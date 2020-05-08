@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { DataModel } from 'src/app/data/data.model';
 
@@ -8,33 +8,52 @@ import { DataModel } from 'src/app/data/data.model';
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent implements OnChanges {
+export class BarChartComponent implements OnChanges, OnInit {
   // Angular 8 ViewChild takes 2 parameters: https://stackoverflow.com/questions/56704164/angular-viewchild-error-expected-2-arguments-but-got-1
   @ViewChild('chart', {static: false})
   private chartContainer: ElementRef;
 
   @Input()
-  data: DataModel[]; //array of DataModel objects
+  data: DataModel[]; //array of DataModel objects 
+
+  /*
+  @Input()
+  pid: number;
+  */
 
   margin = {top: 20, right: 20, bottom: 30, left: 40};
 
   constructor() {
-    console.log('constructor BarChart')
+    console.log('BarChart 0 constructor data')
+  }
+
+  ngOnInit(): void {  
+    console.log('BarChart 1 ngOnInit data', this.data)
+    
+    if (!this.data) { 
+      return; //exit
+    } 
+
+    this.createChart();
   }
 
   ngOnChanges(): void {
-    console.log('BarChart ngOnChanges!!!!')
+    console.log('BarChart ngOnChanges', this.data)
+
     if (!this.data) { 
-      console.log('this.data is empty', this.data)
+      console.log('BarChart 2a ngOnChanges this.data is empty')
       return; //exit
     } 
     
-    console.log('this.data has content', this.data)
+    console.log('BarChart 2b ngOnChanges this.data has content')
     this.createChart();    
   }
 
   onResize() {
-    console.log('onResize')
+    if (!this.data) { 
+      return; //exit
+    } 
+
     this.createChart();
   }
 
@@ -85,17 +104,14 @@ export class BarChartComponent implements OnChanges {
   }
 
   private createChart(): void {
+    console.log('BarChart 3 createChart')
     d3.select('svg').remove();
-
     const element = this.chartContainer.nativeElement;
 
-    const data = this.data;
-    console.log('createChart data is ', data);
+    console.log('BarChart 3a createChart province data', this.data);
 
-    const dataWeekly = this.filterDataAsWeekly( data );
-
-    console.log('orig data', data)
-    console.log('dataWeekly', dataWeekly)
+    const dataWeekly = this.filterDataAsWeekly( this.data );
+    console.log('BarChart 3b province dataWeekly', dataWeekly)
     
     // find max number of confirmed cases to set corresponding max height of graph
     const numconfMax = dataWeekly.map( d => d.numconf )
