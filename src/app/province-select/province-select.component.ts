@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup, FormControl } from "@angular/forms"; // FormBuilder
+import { FormGroup, FormControl } from "@angular/forms";
 import { DataModel } from 'src/app/data/data.model';
 
 @Component({
@@ -7,7 +7,7 @@ import { DataModel } from 'src/app/data/data.model';
   templateUrl: './province-select.component.html',
   styleUrls: ['./province-select.component.scss']
 })
-export class ProvinceSelectComponent implements OnInit, OnChanges { // 
+export class ProvinceSelectComponent implements OnInit {
   /*
   @Input()
   data: DataModel[];   
@@ -16,7 +16,7 @@ export class ProvinceSelectComponent implements OnInit, OnChanges { //
   // only want data of provinces
   provinceUniqueIDs: any[] = [];
   provinceArray: any[] = [];
-  @Output() selected = new EventEmitter<string>(); // actually an string ID
+  @Output() selectedProvince = new EventEmitter<string>(); // actually an string ID
   selectedValue: string;
   
   provinceForm = new FormGroup({
@@ -94,42 +94,19 @@ export class ProvinceSelectComponent implements OnInit, OnChanges { //
         'pruid': '60',
         'prname': 'Yukon'
       }
-    ];
-
-    console.log('ProvinceSelectComponent 4 getProvinceData this.provinceArray AFTER', this.provinceArray, this.provinceArray.length)       
+    ];    
   }
  
   onChange( e ) {
-    console.log( 'ProvinceSelectComponent 6 onChange!!! provinceForm value', this.provinceForm.value ) // ? value of form    
-
     // set data model to user's selected province ID
-    // this.selected = this.provinceForm.get('provinceSelection').value;
-    this.selectedValue = this.provinceForm.get('provinceSelection').value;
-    console.log( 'ProvinceSelectComponent 7a onChange!!! province ID selectedValue', this.selectedValue )   
-    this.selected.emit( this.selectedValue );
-    console.log( 'ProvinceSelectComponent 7b onChange!!! province ID selected', this.selected )    
+    this.selectedValue = this.provinceForm.get('provinceSelection').value; 
+    this.selectedProvince.emit( this.selectedValue );   
   }
 
   constructor() {  
-    console.log('ProvinceSelectComponent 0 constructor', this.provinceArray);
-  }
-
-  ngOnChanges(): void {
-    /*
-    if (!this.data) { 
-      console.log('ProvinceSelectComponent 2a ngOnChanges this.data is empty', this.data)
-      return; //exit
-    } 
-    
-    console.log('ProvinceSelectComponent 2b ngOnChanges this.data has content', this.data)
-    */    
-
-    this.getProvinceData();   
-    console.log('ProvinceSelectComponent 5 provinceArray AFTER', this.provinceArray);  
   }
 
   ngOnInit(): void {    
     this.getProvinceData();
-    console.log('ProvinceSelectComponent 1 ngOnInit provinceArray', this.provinceArray);     
   }
 }

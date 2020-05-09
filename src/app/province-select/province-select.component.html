@@ -3,7 +3,6 @@
 </div>
 
 <div *ngIf="provinceArray.length > 0">
-  Form ...
   <form [formGroup]="provinceForm">
     <select formControlName="provinceSelection" (change)="onChange( $event )">
       <option value="">Please select province</option>
@@ -11,9 +10,3 @@
     </select>
   </form>
 </div>
-
-<p *ngIf="!selected && provinceArray.length > 0">Province not selected</p>
-<p *ngIf="selected">
-  <!-- Province selected: {{ provinceSelection.value }} -->
-  Province selected: {{ selectedValue }}
-</p>

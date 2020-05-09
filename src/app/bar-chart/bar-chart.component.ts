@@ -8,7 +8,7 @@ import { DataModel } from 'src/app/data/data.model';
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent implements OnChanges, OnInit {
+export class BarChartComponent implements OnChanges {
   // Angular 8 ViewChild takes 2 parameters: https://stackoverflow.com/questions/56704164/angular-viewchild-error-expected-2-arguments-but-got-1
   @ViewChild('chart', {static: false})
   private chartContainer: ElementRef;
@@ -16,25 +16,9 @@ export class BarChartComponent implements OnChanges, OnInit {
   @Input()
   data: DataModel[]; //array of DataModel objects 
 
-  /*
-  @Input()
-  pid: number;
-  */
-
   margin = {top: 20, right: 20, bottom: 30, left: 40};
 
   constructor() {
-    console.log('BarChart 0 constructor data')
-  }
-
-  ngOnInit(): void {  
-    console.log('BarChart 1 ngOnInit data', this.data)
-    
-    if (!this.data) { 
-      return; //exit
-    } 
-
-    this.createChart();
   }
 
   ngOnChanges(): void {
@@ -104,14 +88,10 @@ export class BarChartComponent implements OnChanges, OnInit {
   }
 
   private createChart(): void {
-    console.log('BarChart 3 createChart')
     d3.select('svg').remove();
     const element = this.chartContainer.nativeElement;
 
-    console.log('BarChart 3a createChart province data', this.data);
-
     const dataWeekly = this.filterDataAsWeekly( this.data );
-    console.log('BarChart 3b province dataWeekly', dataWeekly)
     
     // find max number of confirmed cases to set corresponding max height of graph
     const numconfMax = dataWeekly.map( d => d.numconf )
