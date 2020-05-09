@@ -28,23 +28,21 @@ export class AppComponent {
     console.log('AppComponent getData this.data before csv()', this.data)
 
     // using cors-anywhere as a proxy to access the external CSV file
-    // d3.csv returns a promise, so needs a return statement inside
-    if( this.provinceID!=='' ){
-      this.data = d3.csv( this.csvUrlWithProxy ) // this.localCsv
-      .then( function (data){
-        console.log('AppComponent covid CSV data is', data);  
-        console.log('AppComponent TYPE OF CSV DATA', typeof(data) )
-                
-        // show data of selected province
-        console.log('AppComponent csv() self.provinceID', self.provinceID)
-        const objs = data.filter( d => d.pruid==self.provinceID ); // parseInt(d.pruid)   
-        return objs;        
-      })
-      .finally( function (){
-        console.log('AppComponent csv() self.data!!!!', self.data)
-        self.dataLoading = false;
-      });
-    }    
+    // d3.csv returns a promise, so needs a return statement inside    
+    this.data = d3.csv( this.csvUrlWithProxy ) // this.localCsv
+    .then( function (data){
+      console.log('AppComponent covid CSV data is', data);  
+      console.log('AppComponent TYPE OF CSV DATA', typeof(data) )
+              
+      // show data of selected province
+      console.log('AppComponent csv() self.provinceID', self.provinceID)
+      const objs = data.filter( d => d.pruid==self.provinceID ); // parseInt(d.pruid)   
+      return objs;        
+    })
+    .finally( function (){
+      console.log('AppComponent csv() self.data!!!!', self.data)
+      self.dataLoading = false;
+    });
   }
 
   /* receive Event Emitter from province-select.component.ts: onChange/this.selected.emit() */
@@ -52,6 +50,8 @@ export class AppComponent {
     this.provinceID = id; // parseInt( id )
     console.log('AppComponent onSelect provinceID', this.provinceID)   
 
-    this.getData();
+    if( this.provinceID !== '' ){
+      this.getData();
+    }
   }
 }
