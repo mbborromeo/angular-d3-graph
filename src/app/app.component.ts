@@ -20,6 +20,46 @@ export class AppComponent {
   
   constructor( private http: HttpClient ) {
   }
+
+  reformatDateYMD( dmy ): string {
+    let newdate = dmy.split("-").reverse().join("-");
+    return newdate;
+  }
+
+  formatDateDMY( ymd ): string {
+    let day = ymd.getDate();
+    if( day < 10 ){
+      day = '0' + day;
+    }
+
+    let month = ymd.getMonth() + 1;
+    if( month < 10 ){
+      month = '0' + month;
+    }
+
+    const year = ymd.getFullYear();
+    const newdate = day + '-' + month + '-' + year;
+    return newdate;
+  }
+
+  filterDataAsWeekly( inputData ): Array<any> {
+    // filter out dates so only every 7th
+    const dateValuesOnly = inputData.map( d => this.reformatDateYMD(d.date) );
+    const dateMin = dateValuesOnly.reduce( function (a, b) { return a<b ? a:b; } ); // Math.min.apply(null, dateValuesOnly)
+    const dateMax = dateValuesOnly.reduce( function (a, b) { return a>b ? a:b; } ); // Math.max.apply(null, dateValuesOnly)
+    const datesEvery7Days = d3.timeDay.every(7).range( new Date(dateMin), new Date(dateMax) );
+    const datesEvery7DaysDMYarray = datesEvery7Days.map( i => this.formatDateDMY(i) );
+    
+    // works but for es7 only
+    // const dataOnlyWithWeeklyDates = data.filter( function(item) {
+    //   return datesEvery7DaysDMYarray.includes(item.date); 
+    // });
+    const dataOnlyWithWeeklyDates = inputData.filter( 
+      d => datesEvery7DaysDMYarray.indexOf( d.date ) > 0  // indexOf: if no match return -1, if match return index > 0
+    );
+
+    return dataOnlyWithWeeklyDates;
+  }
   
   getData(): void {
     const self = this; // 'this' context changes within d3.csv() function
@@ -36,8 +76,9 @@ export class AppComponent {
               
       // show data of selected province
       console.log('AppComponent csv() self.provinceID', self.provinceID)
-      const objs = data.filter( d => d.pruid==self.provinceID ); // parseInt(d.pruid)   
-      return objs;        
+      const dataOfProvince = data.filter( d => d.pruid==self.provinceID ); // parseInt(d.pruid)   
+      const dataOfProvinceWeekly = self.filterDataAsWeekly( dataOfProvince );
+      return dataOfProvinceWeekly;        
     })
     .finally( function (){
       console.log('AppComponent csv() self.data!!!!', self.data)
