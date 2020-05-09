@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { DataModel } from 'src/app/data/data.model';
 
@@ -14,91 +14,39 @@ export class BarChartComponent implements OnChanges {
   private chartContainer: ElementRef;
 
   @Input()
-  data: DataModel[]; //array of DataModel objects
+  data: DataModel[]; //array of DataModel objects 
 
   margin = {top: 20, right: 20, bottom: 30, left: 40};
 
   constructor() {
-    console.log('constructor BarChart')
   }
 
   ngOnChanges(): void {
-    console.log('BarChart ngOnChanges!!!!')
+    console.log('BarChart ngOnChanges', this.data)
+
     if (!this.data) { 
-      console.log('this.data is empty', this.data)
+      console.log('BarChart 2a ngOnChanges this.data is empty')
       return; //exit
     } 
     
-    console.log('this.data has content', this.data)
+    console.log('BarChart 2b ngOnChanges this.data has content')
     this.createChart();    
   }
 
   onResize() {
-    console.log('onResize')
+    if (!this.data) { 
+      return; //exit
+    } 
+
     this.createChart();
   }
-
-  private reformatDateYMD( dmy ): string {
-    let newdate = dmy.split("-").reverse().join("-");
-    return newdate;
-  }
-
-  private formatDateDMY( ymd ): string {
-    let day = ymd.getDate();
-    if( day < 10 ){
-      day = '0' + day;
-    }
-
-    let month = ymd.getMonth() + 1;
-    if( month < 10 ){
-      month = '0' + month;
-    }
-
-    const year = ymd.getFullYear();
-
-    const newdate = day + '-' + month + '-' + year;
-
-    return newdate;
-  }
-
-  private filterDataAsWeekly( inputData ): Array<any> {
-    // filter out dates so only every 7th
-    const dateValuesOnly = inputData.map( d => this.reformatDateYMD(d.date) );
-
-    const dateMin = dateValuesOnly.reduce( function (a, b) { return a<b ? a:b; } ); // Math.min.apply(null, dateValuesOnly)
-    
-    const dateMax = dateValuesOnly.reduce( function (a, b) { return a>b ? a:b; } ); // Math.max.apply(null, dateValuesOnly)
-    
-    const datesEvery7Days = d3.timeDay.every(7).range( new Date(dateMin), new Date(dateMax) );
-
-    const datesEvery7DaysDMYarray = datesEvery7Days.map( i => this.formatDateDMY(i) );
-    
-    // works but for es7 only
-    // const dataOnlyWithWeeklyDates = data.filter( function(item) {
-    //   return datesEvery7DaysDMYarray.includes(item.date); 
-    // });
-    const dataOnlyWithWeeklyDates = inputData.filter( 
-      d => datesEvery7DaysDMYarray.indexOf( d.date ) > 0  // indexOf: if no match return -1, if match return index > 0
-    );
-
-    return dataOnlyWithWeeklyDates;
-  }
-
+ 
   private createChart(): void {
     d3.select('svg').remove();
-
     const element = this.chartContainer.nativeElement;
-
-    const data = this.data;
-    console.log('createChart data is ', data);
-
-    const dataWeekly = this.filterDataAsWeekly( data );
-
-    console.log('orig data', data)
-    console.log('dataWeekly', dataWeekly)
     
     // find max number of confirmed cases to set corresponding max height of graph
-    const numconfMax = dataWeekly.map( d => d.numconf )
+    const numconfMax = this.data.map( d => d.numconf )
       .reduce( function (a, b){
           return Math.max(a, b);
       }); 
@@ -114,7 +62,7 @@ export class BarChartComponent implements OnChanges {
     const x = d3.scaleBand()
       .rangeRound([0, contentWidth])
       .padding(0.1)
-      .domain( dataWeekly.map(d => d.date) ); // d => d.prname
+      .domain( this.data.map(d => d.date) ); // d => d.prname
 
     const y = d3.scaleLinear()
       .rangeRound([contentHeight, 0])
@@ -136,7 +84,7 @@ export class BarChartComponent implements OnChanges {
       .attr('text-anchor', 'end')
       .text('Confirmed Cases');
 
-    g.selectAll('.bar').data(dataWeekly)
+    g.selectAll('.bar').data(this.data)
       .enter().append('rect')
       .attr('class', 'bar')
       .attr('x', d => x(d.date)) // x(d.prname)

@@ -1,0 +1,12 @@
+<div *ngIf="provinceArray.length===0">
+  Province choices loading...
+</div>
+
+<div *ngIf="provinceArray.length > 0">
+  <form [formGroup]="provinceForm">
+    <select formControlName="provinceSelection" (change)="onChange( $event )">
+      <option value="">Please select province</option>
+      <option *ngFor="let prv of provinceArray" value={{prv.pruid}}>{{prv.prname}}</option>
+    </select>
+  </form>
+</div>

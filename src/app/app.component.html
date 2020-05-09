@@ -1,4 +1,10 @@
-<h1>Number of COVID-19 cases in British Columbia, 2020</h1>
-<app-bar-chart [data]="data | async"></app-bar-chart>
+<h1>Number of COVID-19 cases in</h1>
+
+<app-province-select (selectedProvince)="onSelect( $event )"></app-province-select>
+
+<div *ngIf="dataLoading===true && provinceID!==undefined && provinceID!==''">Loading GRAPH...</div>
+<div *ngIf="dataLoading===false && provinceID!==undefined && provinceID!=='' && data!==null">
+  <app-bar-chart [data]="data | async"></app-bar-chart>
+</div>
 
 <router-outlet></router-outlet>
