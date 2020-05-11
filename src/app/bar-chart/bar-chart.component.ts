@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input, AfterViewInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnChanges, ElementRef, Input, AfterViewInit, AfterViewChecked, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { DataModel } from 'src/app/data/data.model';
 
@@ -8,7 +8,7 @@ import { DataModel } from 'src/app/data/data.model';
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent implements AfterViewInit {
+export class BarChartComponent implements AfterViewInit, AfterViewChecked { //
   // Angular 8 ViewChild takes 2 parameters: https://stackoverflow.com/questions/56704164/angular-viewchild-error-expected-2-arguments-but-got-1
   @ViewChild('chart', {static: false})
   private chartContainer: ElementRef;
@@ -20,9 +20,17 @@ export class BarChartComponent implements AfterViewInit {
 
   constructor() {
 
-  }
+  }  
 
   ngAfterViewInit(): void {
+    if (!this.data) { 
+      return; //exit
+    } 
+
+    this.createChart(); 
+  }
+  
+  ngAfterViewChecked(): void {
     if (!this.data) { 
       return; //exit
     } 
