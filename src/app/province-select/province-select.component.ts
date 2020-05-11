@@ -7,14 +7,12 @@ import { DataModel } from 'src/app/data/data.model';
   templateUrl: './province-select.component.html',
   styleUrls: ['./province-select.component.scss']
 })
-export class ProvinceSelectComponent implements OnInit {
-  /*
+export class ProvinceSelectComponent implements OnInit {  
   @Input()
-  data: DataModel[];   
-  */ 
+  data: DataModel[]; 
 
   // only want data of provinces
-  provinceUniqueIDs: any[] = [];
+  // provinceUniqueIDs: any[] = [];
   provinceArray: any[] = [];
   @Output() selectedProvince = new EventEmitter<string>(); // actually an string ID
   selectedValue: string;
