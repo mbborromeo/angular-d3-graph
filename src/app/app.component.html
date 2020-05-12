@@ -1,14 +1,14 @@
 <h1>Number of COVID-19 cases in</h1>
 
-<div *ngIf="provinceOptionsArray===undefined">
+<div *ngIf="!provinceOptionsArray">
   Determining options...
 </div>
-<div *ngIf="provinceOptionsArray.length > 0">
+<div *ngIf="provinceOptionsArray && provinceOptionsArray.length > 0">
   <app-province-select [provinceArray]="provinceOptionsArray" (selectedProvince)="onSelect( $event )"></app-province-select>
 </div>
 
-<div *ngIf="dataLoading===true && provinceID!==undefined && provinceID!==''">Loading GRAPH...</div>
-<div *ngIf="dataLoading===false && provinceID!==undefined && provinceID!==''">
+<div *ngIf="dataLoading && provinceID">Loading GRAPH...</div>
+<div *ngIf="!dataLoading && provinceID">
   <app-bar-chart [data]="dataOfProvinceWeekly"></app-bar-chart>
 </div>
 

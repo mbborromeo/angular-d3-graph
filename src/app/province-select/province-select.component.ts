@@ -49,9 +49,11 @@ export class ProvinceSelectComponent implements OnInit {
   }
 
   constructor() {  
+    console.log('ProvinceSelectComponent constructor provinceArray', this.provinceArray)
   }
 
   ngOnInit(): void {    
     // this.getProvinceData();
+    console.log('ProvinceSelectComponent constructor ngOnInit', this.provinceArray)
   }
 }
