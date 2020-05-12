@@ -8,7 +8,7 @@ import { DataModel } from 'src/app/data/data.model';
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent implements AfterViewInit, AfterViewChecked { //
+export class BarChartComponent implements AfterViewChecked { // AfterViewInit, 
   // Angular 8 ViewChild takes 2 parameters: https://stackoverflow.com/questions/56704164/angular-viewchild-error-expected-2-arguments-but-got-1
   @ViewChild('chart', {static: false})
   private chartContainer: ElementRef;
@@ -19,22 +19,26 @@ export class BarChartComponent implements AfterViewInit, AfterViewChecked { //
   margin = {top: 20, right: 20, bottom: 30, left: 40};
 
   constructor() {
-
+    console.log('BarChartComponent constructor data', this.data)
   }  
 
+  /*
   ngAfterViewInit(): void {
     if (!this.data) { 
       return; //exit
     } 
 
+    console.log('BarChartComponent ngAfterViewInit data', this.data)
     this.createChart(); 
   }
+  */
   
   ngAfterViewChecked(): void {
     if (!this.data) { 
       return; //exit
     } 
 
+    console.log('BarChartComponent ngAfterViewChecked data', this.data)
     this.createChart(); 
   }
 
