@@ -71,7 +71,7 @@ export class AppComponent implements OnInit {
     this.dataOfProvinceWeekly = this.filterDataAsWeekly( dataOfProvince );
   }
 
-  /* receive Event Emitter from province-select.component.ts: onChange/this.selected.emit() */
+  // receive Event Emitter from province-select.component.ts: onChange/this.selected.emit()
   onSelect( id: string ) {
     this.provinceID = id; // parseInt( id ) 
 
@@ -81,39 +81,55 @@ export class AppComponent implements OnInit {
   }
 
   getProvinceOptions(): Array<any> {
-    // create a new object which will contain only key/value pairs (so there will be no duplicate items)
-    // iterate thru each row in data, and set object key to pruid, and set object value to prname
+    // create a new Object which will contain only key/value pairs (so there will be no duplicate items)
+    // { 43: 'Alberta', 55: 'British Columbia' }
     const provinceNamesById = {}
     this.dataFetched.forEach( function (elem, i){
       provinceNamesById[elem.pruid] = elem.prname;
-    });
-    // { 43: 'Alberta', 55: 'British Columbia' }
+    });    
 
-    // then create a new array of all the objects converted to arrays of [key, value] elements, 
-    const provinceArrayOfArrays = Object.entries( provinceNamesById );
-    // [ [43, 'Alberta'], [55, 'British Columbia'] ]
+    // then create a new Array of all the objects converted to arrays of [key, value] elements
+    // [ [43, 'Alberta'], [55, 'British Columbia'] ] 
+    const provinceArrayOfArrays = Object.entries( provinceNamesById );    
 
-    // then map it and extract the elements and turn it back into an array of objects of key/value pairs.
+    // then map it and extract the elements and turn it back into an Array of Objects of key/value pairs.
     // [ {pruid: 43, prname: 'Alberta'}, {pruid: 55, prname: 'British Columbia'} ]
     return provinceArrayOfArrays.map( ([ pruid, prname ]) => ({ pruid, prname }) );
   }
 
   /*
   getProvinceOptions(): void {
-    // get unique provinces from data set
-    // this.provinceUniqueIDs = [...new Set( this.data.map(d => d.pruid) )];    
+    // // get unique provinces from data set
+    // this.provinceUniqueIDs = [...new Set( this.data.map(d => d.pruid) )];       
     
-    // this.provinceUniqueIDs = [      
-    //   '59',
-    //   '35'
-    // ];
-   
-    // console.log('ProvinceSelectComponent 3 getProvinceData this.data BEFORE', this.data)
-    
-    // return a subset of complete data of only first index of unique IDs determined from previous step
-    
+    // // return a subset of complete data of only first index of unique IDs determined from previous step    
     // this.provinceArray = this.data.filter(
     //   d => this.provinceUniqueIDs.indexOf( d.pruid ) > 0  // indexOf: if no match return -1, if match return index > 0
+    // );
+
+    // const provincesSubsetIdName = data.map( ({pruid, prname}) => ({pruid, prname}) );
+    // const provincesData = [...new Set( provincesSubsetIdName )];     
+    // const provincesUniqueIDs = [...new Set( data.map(d => d.pruid) )]; 
+    // // const provincesUniqueIDs = [...new Set( provincesSubsetIdName.map(d => d.pruid) )]; 
+
+    // // return a subset of complete data of only first index of unique IDs determined from previous step
+    // self.provinceOptionsArray = data.filter(
+    //   d => provinceUniqueIDs.indexOf( d.pruid ) > 0  // indexOf: if no match return -1, if match return index > 0
+    // );
+
+    // // Ref: https://stackoverflow.com/questions/8668174/indexof-method-in-an-object-array
+    // // Problem is: this logic does not iterate over every item in provincesUniqueIDs.  
+    // // It only iterates over every item in provincesSubsetIdName, but only checking for first value of provincesUniqueIDs.
+    // self.provinceOptionsArray = provincesSubsetIdName.filter(
+    //   p => {
+    //     const index = provincesUniqueIDs.indexOf( p.pruid );
+    //     console.log('p', p, '| p.pruid', p.pruid, '| index', index)
+    //     let keepOrNot: boolean = false;
+    //     if( index > 0 ){
+    //       keepOrNot = true;
+    //     }         
+    //     return keepOrNot;
+    //   }
     // );
   }
   */
@@ -127,41 +143,7 @@ export class AppComponent implements OnInit {
     this.data = d3.csv( this.csvUrlWithProxy ) // this.localCsv
     .then( function (data){
       self.dataFetched = data;
-      self.provinceOptionsArray = self.getProvinceOptions();    
-
-      /*
-      const provincesSubsetIdName = data.map( ({pruid, prname}) => ({pruid, prname}) );
-      console.log('AppComponent csv() - provinceSubsetIdName', provincesSubsetIdName)
-
-      const provincesData = [...new Set( provincesSubsetIdName )]; 
-      console.log('AppComponent csv() - provincesData!!!!', provincesData) 
-      
-      const provincesUniqueIDs = [...new Set( data.map(d => d.pruid) )]; 
-      // const provincesUniqueIDs = [...new Set( provincesSubsetIdName.map(d => d.pruid) )];  
-      console.log('AppComponent csv() - provinceUniqueIDs', provincesUniqueIDs)  
-
-      return a subset of complete data of only first index of unique IDs determined from previous step
-      self.provinceOptionsArray = data.filter(
-        d => provinceUniqueIDs.indexOf( d.pruid ) > 0  // indexOf: if no match return -1, if match return index > 0
-      );
-
-      // // Ref: https://stackoverflow.com/questions/8668174/indexof-method-in-an-object-array
-      // // Problem is: this logic does not iterate over every item in provincesUniqueIDs.  
-      // // It only iterates over every item in provincesSubsetIdName, but only checking for first value of provincesUniqueIDs.
-      // self.provinceOptionsArray = provincesSubsetIdName.filter(
-      //   p => {
-      //     const index = provincesUniqueIDs.indexOf( p.pruid );
-      //     console.log('p', p, '| p.pruid', p.pruid, '| index', index)
-      //     let keepOrNot: boolean = false;
-      //     if( index > 0 ){
-      //       keepOrNot = true;
-      //     } 
-      //     console.log('keepOrNot', keepOrNot)
-          
-      //     return keepOrNot;
-      //   }
-      // );
-      */
+      self.provinceOptionsArray = self.getProvinceOptions();  
      
       return data;    
     })

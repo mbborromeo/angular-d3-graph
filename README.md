@@ -48,6 +48,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## To Do
 
+- Filter out Repatriated Travellers and Canada, because only want provinces
 - Add dropdown options for deaths, tested, recovered (and not just cases)
 - Make mobile responsive (currently x-axis doesn't fit on mobile)
 - Maybe set the max height of the graph to the maximum value of all provinces, so its easier to compare when changing between different province dropdown options
