@@ -15,7 +15,7 @@ I also created my own filter options for the user.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` or `ng serve --open` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
@@ -23,13 +23,18 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.  However, to build and deploy to GitHub Pages, see below.
 
 ## Deploy to GitHub Pages
 
-ng build --prod --base-href /angular-d3-graph/
-Then add/commit changes and push to origin master branch.
-Then in GitHub, set up 'master docs' for the GitHub Pages.
+Instead of the above build command, run `ng build --prod --base-href /angular-d3-graph/`.  This will build the project with a base HREF which will be the sub-directory of where your project will reside on the live GitHub Pages site.  The build artifacts will be stored in whichever directory has been specified in the 'outputPath' of the angular.json file.  Mine is currently set to the `docs/` directory.
+
+As the build has generated new files locally, you need to:
+- Add and commit the local changes `git add .`, `git commit -am '[description]'`
+- Push these changes on your branch to origin `git push -u origin [branch name]`
+- Then EITHER submit a Pull Request for your branch to merge onto origin master branch via GitHub
+- OR merge your branch to the local master branch first `git checkout master`, `git merge [branch name]`, fix merge conflicts if any, then push to origin master `git push -u origin master`
+- Finally, in your GitHub project settings, choose the 'master docs' option for publishing on GitHub Pages
 
 Resource: 
 https://angular.io/guide/deployment#deploy-to-github-pages
@@ -48,16 +53,13 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## To Do
 
-- Filter out Repatriated Travellers and Canada, because only want provinces
 - Add dropdown options for deaths, tested, recovered (and not just cases)
 - Make mobile responsive (currently x-axis doesn't fit on mobile)
-- Maybe set the max height of the graph to the maximum value of all provinces, so its easier to compare when changing between different province dropdown options
-- Or add some animation when user changes between filter options/province selections
+- Add some animation when user changes between filter options/province selections
 - Use types correctly
 - Add a loading graphic while CSV is being fetched (can be slow going through a proxy)
 - Add labels on the graph axis
 - Maybe swap graph axis so that y-axis are the running dates from newest to oldest, and x-axis is the number of cases
-- Set up 404 error page and route
 
 ## Extras
 

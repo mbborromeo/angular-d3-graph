@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
   }
 
   // show data of selected province and by week      
-  getFilteredData(): void {
+  getProvinceData(): void {
     const dataOfProvince = this.dataFetched.filter( d => d.pruid == this.provinceID ); // parseInt(d.pruid)   
     this.dataOfProvinceWeekly = this.filterDataAsWeekly( dataOfProvince );
   }
@@ -76,11 +76,11 @@ export class AppComponent implements OnInit {
     this.provinceID = id; // parseInt( id ) 
 
     if( this.provinceID !== '' ){
-      this.getFilteredData();
+      this.getProvinceData();
     }
   }
 
-  getProvinceOptions(): Array<any> {
+  getProvinces(): Array<any> {
     // create a new Object which will contain only key/value pairs (so there will be no duplicate items)
     // { 43: 'Alberta', 55: 'British Columbia' }
     const provinceNamesById = {};
@@ -100,7 +100,7 @@ export class AppComponent implements OnInit {
   }
 
   /*
-  getProvinceOptions(): void {
+  getProvinces(): void {
     // // get unique provinces from data set
     // this.provinceUniqueIDs = [...new Set( this.data.map(d => d.pruid) )];       
     
@@ -145,7 +145,7 @@ export class AppComponent implements OnInit {
     this.data = d3.csv( this.csvUrlWithProxy ) // this.localCsv
     .then( function (data){
       self.dataFetched = data;
-      self.provinceOptionsArray = self.getProvinceOptions();  
+      self.provinceOptionsArray = self.getProvinces();  
      
       return data;    
     })
