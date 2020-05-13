@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, ElementRef, Input, AfterViewInit, AfterViewChecked, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnChanges, AfterViewInit, AfterViewChecked, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { DataModel } from 'src/app/data/data.model';
 
@@ -19,7 +19,7 @@ export class BarChartComponent implements AfterViewChecked { // AfterViewInit,
   margin = {top: 20, right: 20, bottom: 30, left: 40};
 
   constructor() {
-    console.log('BarChartComponent constructor data', this.data)
+    
   }  
 
   /*
@@ -35,16 +35,15 @@ export class BarChartComponent implements AfterViewChecked { // AfterViewInit,
   
   ngAfterViewChecked(): void {
     if (!this.data) { 
-      return; //exit
+      return;
     } 
 
-    console.log('BarChartComponent ngAfterViewChecked data', this.data)
     this.createChart(); 
   }
 
   onResize() {
     if (!this.data) { 
-      return; //exit
+      return;
     } 
 
     this.createChart();
@@ -71,7 +70,7 @@ export class BarChartComponent implements AfterViewChecked { // AfterViewInit,
     const x = d3.scaleBand()
       .rangeRound([0, contentWidth])
       .padding(0.1)
-      .domain( this.data.map(d => d.date) ); // d => d.prname
+      .domain( this.data.map(d => d.date) );
 
     const y = d3.scaleLinear()
       .rangeRound([contentHeight, 0])
@@ -96,7 +95,7 @@ export class BarChartComponent implements AfterViewChecked { // AfterViewInit,
     g.selectAll('.bar').data(this.data)
       .enter().append('rect')
       .attr('class', 'bar')
-      .attr('x', d => x(d.date)) // x(d.prname)
+      .attr('x', d => x(d.date))
       .attr('y', d => y(d.numconf))
       .attr('width', x.bandwidth())
       .attr('height', d => contentHeight - y(d.numconf));
