@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
   data: Promise<any>; // Array<any>, Observable<DataModel>
   dataFetched: Array<any>;
   provinceID: string; // number  
-  provinceOptionsArray: Array<any>;
   dataOfProvinceWeekly: Array<any>;
   csvUrl: string = 'https://health-infobase.canada.ca/src/data/covidLive/covid19.csv';  
   csvUrlWithProxy: string = `https://cors-anywhere.herokuapp.com/${ this.csvUrl }`;
@@ -79,62 +78,6 @@ export class AppComponent implements OnInit {
       this.getProvinceData();
     }
   }
-
-  getProvinces(): Array<any> {
-    // create a new Object which will contain only key/value pairs (so there will be no duplicate items)
-    // { 43: 'Alberta', 55: 'British Columbia' }
-    const provinceNamesById = {};
-    // filter out Repatriated Travellers 99 and Canada 1
-    const dataOnlyProvinces = this.dataFetched.filter( d => d.pruid!=1 && d.pruid!=99 );
-    dataOnlyProvinces.forEach( function (elem, i){
-      provinceNamesById[elem.pruid] = elem.prname;
-    });    
-
-    // then create a new Array of all the objects converted to arrays of [key, value] elements
-    // [ [43, 'Alberta'], [55, 'British Columbia'] ] 
-    const provinceArrayOfArrays = Object.entries( provinceNamesById );    
-
-    // then map it and extract the elements and turn it back into an Array of Objects of key/value pairs.
-    // [ {pruid: 43, prname: 'Alberta'}, {pruid: 55, prname: 'British Columbia'} ]
-    return provinceArrayOfArrays.map( ([ pruid, prname ]) => ({ pruid, prname }) );
-  }
-
-  /*
-  getProvinces(): void {
-    // // get unique provinces from data set
-    // this.provinceUniqueIDs = [...new Set( this.data.map(d => d.pruid) )];       
-    
-    // // return a subset of complete data of only first index of unique IDs determined from previous step    
-    // this.provinceArray = this.data.filter(
-    //   d => this.provinceUniqueIDs.indexOf( d.pruid ) > 0  // indexOf: if no match return -1, if match return index > 0
-    // );
-
-    // const provincesSubsetIdName = data.map( ({pruid, prname}) => ({pruid, prname}) );
-    // const provincesData = [...new Set( provincesSubsetIdName )];     
-    // const provincesUniqueIDs = [...new Set( data.map(d => d.pruid) )]; 
-    // // const provincesUniqueIDs = [...new Set( provincesSubsetIdName.map(d => d.pruid) )]; 
-
-    // // return a subset of complete data of only first index of unique IDs determined from previous step
-    // self.provinceOptionsArray = data.filter(
-    //   d => provinceUniqueIDs.indexOf( d.pruid ) > 0  // indexOf: if no match return -1, if match return index > 0
-    // );
-
-    // // Ref: https://stackoverflow.com/questions/8668174/indexof-method-in-an-object-array
-    // // Problem is: this logic does not iterate over every item in provincesUniqueIDs.  
-    // // It only iterates over every item in provincesSubsetIdName, but only checking for first value of provincesUniqueIDs.
-    // self.provinceOptionsArray = provincesSubsetIdName.filter(
-    //   p => {
-    //     const index = provincesUniqueIDs.indexOf( p.pruid );
-    //     console.log('p', p, '| p.pruid', p.pruid, '| index', index)
-    //     let keepOrNot: boolean = false;
-    //     if( index > 0 ){
-    //       keepOrNot = true;
-    //     }         
-    //     return keepOrNot;
-    //   }
-    // );
-  }
-  */
   
   getData(): void {
     const self = this; // 'this' context changes within d3.csv() function
@@ -144,8 +87,7 @@ export class AppComponent implements OnInit {
     // d3.csv returns a promise, so needs a return statement inside    
     this.data = d3.csv( this.csvUrlWithProxy ) // this.localCsv
     .then( function (data){
-      self.dataFetched = data;
-      self.provinceOptionsArray = self.getProvinces();  
+      self.dataFetched = data; 
      
       return data;    
     })

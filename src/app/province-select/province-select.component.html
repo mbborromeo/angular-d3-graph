@@ -6,7 +6,9 @@
   <form [formGroup]="provinceForm">
     <select formControlName="provinceSelection" (change)="onChange( $event )">
       <option value="">Please select province</option>
-      <option *ngFor="let prv of provinceArray" value={{prv.pruid}}>{{prv.prname}}</option>
+      <option *ngFor="let prv of provinceArray" value={{prv.pruid}}>
+        {{prv.prname}}
+      </option>
     </select>
   </form>
 </div>
