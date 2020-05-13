@@ -83,8 +83,10 @@ export class AppComponent implements OnInit {
   getProvinceOptions(): Array<any> {
     // create a new Object which will contain only key/value pairs (so there will be no duplicate items)
     // { 43: 'Alberta', 55: 'British Columbia' }
-    const provinceNamesById = {}
-    this.dataFetched.forEach( function (elem, i){
+    const provinceNamesById = {};
+    // filter out Repatriated Travellers 99 and Canada 1
+    const dataOnlyProvinces = this.dataFetched.filter( d => d.pruid!=1 && d.pruid!=99 );
+    dataOnlyProvinces.forEach( function (elem, i){
       provinceNamesById[elem.pruid] = elem.prname;
     });    
 
