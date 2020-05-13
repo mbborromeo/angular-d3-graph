@@ -11,9 +11,10 @@ import * as d3 from 'd3';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  data: Promise<any>; // Array<any>, Observable<DataModel>
+  data$: Promise<any>; // Array<any>, Observable<DataModel>
   dataFetched: Array<any>;
   provinceID: string; // number  
+  dataOfProvince: Array<any>;
   dataOfProvinceWeekly: Array<any>;
   csvUrl: string = 'https://health-infobase.canada.ca/src/data/covidLive/covid19.csv';  
   csvUrlWithProxy: string = `https://cors-anywhere.herokuapp.com/${ this.csvUrl }`;
@@ -66,8 +67,8 @@ export class AppComponent implements OnInit {
 
   // show data of selected province and by week      
   getProvinceData(): void {
-    const dataOfProvince = this.dataFetched.filter( d => d.pruid == this.provinceID ); // parseInt(d.pruid)   
-    this.dataOfProvinceWeekly = this.filterDataAsWeekly( dataOfProvince );
+    this.dataOfProvince = this.dataFetched.filter( d => d.pruid == this.provinceID ); // parseInt(d.pruid)   
+    this.dataOfProvinceWeekly = this.filterDataAsWeekly( this.dataOfProvince );
   }
 
   // receive Event Emitter from province-select.component.ts: onChange/this.selected.emit()
@@ -85,10 +86,10 @@ export class AppComponent implements OnInit {
 
     // using cors-anywhere as a proxy to access the external CSV file
     // d3.csv returns a promise, so needs a return statement inside    
-    this.data = d3.csv( this.csvUrlWithProxy ) // this.localCsv
+    this.data$ = d3.csv( this.csvUrlWithProxy ) // this.localCsv
     .then( function (data){
       self.dataFetched = data; 
-     
+
       return data;    
     })
     .finally( function (){            
