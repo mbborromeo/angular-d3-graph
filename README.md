@@ -31,9 +31,8 @@ Instead of the above build command, run `ng build --prod --base-href /angular-d3
 
 As the build has generated new files locally, you need to:
 - Add and commit the local changes `git add .`, `git commit -am '[description]'`
-- Push these changes on your branch to origin `git push -u origin [branch name]`
-- Then EITHER submit a Pull Request for your branch to merge onto origin master branch via GitHub
-- OR merge your branch to the local master branch first `git checkout master`, `git merge [branch name]`, fix merge conflicts if any, then push to origin master `git push -u origin master`
+- Then EITHER push these changes on your branch to origin `git push -u origin [branch name]`, and submit a Pull Request for your branch to merge onto origin master branch via GitHub
+- OR push these changes on your branch locally `git push -u [branch name]`, merge your branch to the local master branch first `git checkout master` and `git merge [branch name]`, fix merge conflicts if any, then push to origin master `git push -u origin master`
 - Finally, in your GitHub project settings, choose the 'master docs' option for publishing on GitHub Pages
 
 Resource: 
