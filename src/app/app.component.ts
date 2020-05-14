@@ -71,7 +71,7 @@ export class AppComponent implements OnInit {
     this.dataOfProvinceWeekly = this.filterDataAsWeekly( this.dataOfProvince );
   }
 
-  // receive Event Emitter from province-select.component.ts: onChange/this.selected.emit()
+  // receive Event Emitter from child province-select.component.ts: onChange/emit()
   onSelect( id: string ) {
     this.provinceID = id; // parseInt( id ) 
 

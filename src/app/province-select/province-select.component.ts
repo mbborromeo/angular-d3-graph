@@ -27,7 +27,7 @@ export class ProvinceSelectComponent implements OnInit {
   }
  
   onChange( e ) {
-    // set data model to user's selected province ID
+    // inform parent component of user's selected province ID
     this.selectedProvince.emit( this.provinceForm.get('provinceSelection').value );   
   }
 
@@ -35,6 +35,7 @@ export class ProvinceSelectComponent implements OnInit {
     // create a new Object which will contain only key/value pairs (so there will be no duplicate items)
     // { 43: 'Alberta', 55: 'British Columbia' }
     const provinceNamesById = {};
+
     // filter out Repatriated Travellers
     const dataOnlyProvinces = this.data.filter( d => d.pruid!=this.REPAT_TRAVELLERS );
     dataOnlyProvinces.forEach( function (elem, i){
