@@ -11,9 +11,9 @@ export class ProvinceSelectComponent implements OnInit {
   @Input()
   data: DataModel[];
   
-  @Output() selectedProvince = new EventEmitter<string>(); // actually a string ID
-  selectedValue: string;
-
+  @Output() 
+  selectedProvince = new EventEmitter<string>(); // actually a string ID
+  
   provinceArray: any[];
   REPAT_TRAVELLERS: string = '99';
   CANADA: string = '1';
@@ -27,15 +27,15 @@ export class ProvinceSelectComponent implements OnInit {
   }
  
   onChange( e ) {
-    // set data model to user's selected province ID
-    this.selectedValue = this.provinceForm.get('provinceSelection').value; 
-    this.selectedProvince.emit( this.selectedValue );   
+    // inform parent component of user's selected province ID
+    this.selectedProvince.emit( this.provinceForm.get('provinceSelection').value );   
   }
 
   getProvinces(): Array<any> {
     // create a new Object which will contain only key/value pairs (so there will be no duplicate items)
     // { 43: 'Alberta', 55: 'British Columbia' }
     const provinceNamesById = {};
+
     // filter out Repatriated Travellers
     const dataOnlyProvinces = this.data.filter( d => d.pruid!=this.REPAT_TRAVELLERS );
     dataOnlyProvinces.forEach( function (elem, i){
