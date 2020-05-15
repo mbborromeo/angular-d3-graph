@@ -32,7 +32,6 @@ export class BarChartComponent implements OnInit, OnChanges { // AfterViewInit
       return; //exit
     } 
 
-    console.log('BarChartComponent ngOnChanges data', this.data)
     this.createChart(); 
   }
 
@@ -41,7 +40,6 @@ export class BarChartComponent implements OnInit, OnChanges { // AfterViewInit
       return; //exit
     } 
 
-    console.log('BarChartComponent OnInit data', this.data)
     this.createChart(); 
   }
 
@@ -55,7 +53,7 @@ export class BarChartComponent implements OnInit, OnChanges { // AfterViewInit
  
   private createChart(): void {
     // Remove previous SVG graph
-    console.log('Remove previous SVG')
+    //console.log('Remove previous SVG')
     d3.select('svg').remove();
 
     const element = this.chartContainer.nativeElement;
@@ -67,7 +65,7 @@ export class BarChartComponent implements OnInit, OnChanges { // AfterViewInit
       }); 
 
     // Append SVG to DOM
-    console.log('Append SVG to DOM')
+    //console.log('Append SVG to DOM')
     const svg = d3.select(element)
       .append('svg')
       .attr('width', element.offsetWidth)
@@ -89,19 +87,19 @@ export class BarChartComponent implements OnInit, OnChanges { // AfterViewInit
       .domain( [0, numconfMax] ); // [0, d3.max(data, d => d.numconf)]
 
     // Append Graph
-    console.log('Append Graph to SVG')
+    //console.log('Append Graph to SVG')
     const g = svg.append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
     // X axis
-    console.log('Create X axis')
+    //console.log('Create X axis')
     g.append('g').attr('class', 'axis axis--x')      
         .transition().duration(600)
       .attr('transform', 'translate(0,' + contentHeight + ')')
       .call(d3.axisBottom(x));
 
     // Y axis
-    console.log('Create Y axis')
+    //console.log('Create Y axis')
     g.append('g').attr('class', 'axis axis--y')
       .call(d3.axisLeft(y)) // d3.axisLeft(y).ticks(10, '%')
       .append('text')      
@@ -112,7 +110,7 @@ export class BarChartComponent implements OnInit, OnChanges { // AfterViewInit
       .text('Confirmed Cases');
 
     // Bar chart columns
-    console.log('Create Bars')
+    //console.log('Create Bars')
     g.selectAll('.bar').data(this.data)
       .enter().append('rect')
       .attr('class', 'bar')
