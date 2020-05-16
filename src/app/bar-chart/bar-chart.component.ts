@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, AfterViewInit, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnChanges, OnInit, AfterViewInit, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { DataModel } from 'src/app/data/data.model';
 import { transition } from 'd3';
@@ -9,7 +9,7 @@ import { transition } from 'd3';
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent implements OnInit, OnChanges { // AfterViewInit
+export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
   // Angular 8 ViewChild takes 2 parameters: https://stackoverflow.com/questions/56704164/angular-viewchild-error-expected-2-arguments-but-got-1
   // If the element needs to be available during ngOnInit, then static needs to be true, 
   // but if it can wait until after the init it can be false, which means it won't be available until ngAfterViewInit/ngAfterContentInit.
@@ -42,6 +42,16 @@ export class BarChartComponent implements OnInit, OnChanges { // AfterViewInit
 
     this.createChart(); 
   }
+
+  /*  
+  ngAfterViewInit(): void {
+    if (!this.data) { 
+      return; //exit
+    } 
+
+    this.createChart(); 
+  }
+  */
 
   onResize() {
     if (!this.data) { 
