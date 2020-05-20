@@ -82,40 +82,6 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
     this.dataOfProvinceWeekly = this.filterDataAsWeekly( dataOfProvince );
   }
 
-  ngOnChanges(): void {
-    if (!this.data || !this.dataType || !this.provinceTag) { 
-      return; //exit
-    } 
-
-    this.createChart(); 
-  }
-
-  ngOnInit(): void {
-    if (!this.data || !this.dataType || !this.provinceTag) { 
-      return; //exit
-    } 
-
-    this.createChart(); 
-  }
-
-  /*  
-  ngAfterViewInit(): void {
-    if (!this.data) { 
-      return; //exit
-    } 
-
-    this.createChart(); 
-  }
-  */
-
-  onResize() {
-    if (!this.data || !this.dataType || !this.provinceTag) { 
-      return;
-    } 
-
-    this.createChart();
-  }
- 
   private createChart(): void {
     // Remove previous SVG graph
     d3.select('svg').remove();
@@ -183,5 +149,39 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
       .attr('width', x.bandwidth())      
          .transition().duration(600)
       .attr('height', d => contentHeight - y( d[this.dataType] )); // y(d.numconf)
+  }
+
+  ngOnChanges(): void {
+    if (!this.data || !this.dataType || !this.provinceTag) { 
+      return; //exit
+    } 
+
+    this.createChart(); 
+  }
+
+  ngOnInit(): void {
+    if (!this.data || !this.dataType || !this.provinceTag) { 
+      return; //exit
+    } 
+
+    this.createChart(); 
+  }
+
+  /*  
+  ngAfterViewInit(): void {
+    if (!this.data) { 
+      return; //exit
+    } 
+
+    this.createChart(); 
+  }
+  */
+
+  onResize() {
+    if (!this.data || !this.dataType || !this.provinceTag) { 
+      return;
+    } 
+
+    this.createChart();
   }
 }
