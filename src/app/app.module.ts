@@ -7,12 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { ProvinceSelectComponent } from './province-select/province-select.component';
+import { DataSelectComponent } from './data-select/data-select.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BarChartComponent,
-    ProvinceSelectComponent
+    ProvinceSelectComponent,
+    DataSelectComponent
   ],
   imports: [
     BrowserModule,

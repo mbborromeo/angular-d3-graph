@@ -14,8 +14,7 @@ export class AppComponent implements OnInit {
   data$: Promise<any>; // Array<any>, Observable<DataModel>
   dataFetched: Array<any>;
   provinceID: string; // number  
-  dataOfProvince: Array<any>;
-  dataOfProvinceWeekly: Array<any>;
+  dataTypeID: string;  
   csvUrl: string = 'https://health-infobase.canada.ca/src/data/covidLive/covid19.csv';  
   csvUrlWithProxy: string = `https://cors-anywhere.herokuapp.com/${ this.csvUrl }`;
   localCsv: string = './assets/covid19.csv';
@@ -25,59 +24,13 @@ export class AppComponent implements OnInit {
 
   }
 
-  reformatDateYMD( dmy ): string {
-    let newdate = dmy.split("-").reverse().join("-");
-    return newdate;
-  }
-
-  formatDateDMY( ymd ): string {
-    let day = ymd.getDate();
-    if( day < 10 ){
-      day = '0' + day;
-    }
-
-    let month = ymd.getMonth() + 1;
-    if( month < 10 ){
-      month = '0' + month;
-    }
-
-    const year = ymd.getFullYear();
-    const newdate = day + '-' + month + '-' + year;
-    return newdate;
-  }
-
-  // filter out dates so only every 7th day
-  filterDataAsWeekly( inputData ): Array<any> {    
-    const dateValuesOnly = inputData.map( d => this.reformatDateYMD(d.date) );
-    const dateMin = dateValuesOnly.reduce( function (a, b) { return a<b ? a:b; } ); // Math.min.apply(null, dateValuesOnly)
-    const dateMax = dateValuesOnly.reduce( function (a, b) { return a>b ? a:b; } ); // Math.max.apply(null, dateValuesOnly)
-    const datesEvery7Days = d3.timeDay.every(7).range( new Date(dateMin), new Date(dateMax) );
-    const datesEvery7DaysDMYarray = datesEvery7Days.map( i => this.formatDateDMY(i) );
-    
-    // works but for es7 only
-    // const dataOnlyWithWeeklyDates = data.filter( function(item) {
-    //   return datesEvery7DaysDMYarray.includes(item.date); 
-    // });
-    const dataOnlyWithWeeklyDates = inputData.filter( 
-      d => datesEvery7DaysDMYarray.indexOf( d.date ) > 0  // indexOf: if no match return -1, if match return index > 0
-    );
-
-    return dataOnlyWithWeeklyDates;
-  }
-
-  // show data of selected province and by week      
-  getProvinceData(): void {
-    this.dataOfProvince = this.dataFetched.filter( d => d.pruid == this.provinceID ); // parseInt(d.pruid)   
-    this.dataOfProvinceWeekly = this.filterDataAsWeekly( this.dataOfProvince );
-  }
-
   // receive Event Emitter from child province-select.component.ts: onChange/emit()
-  onSelect( id: string ) {
+  onProvinceSelect( id: string ) {
     this.provinceID = id; // parseInt( id ) 
+  }
 
-    if( this.provinceID !== '' ){
-      this.getProvinceData();
-    }
+  onDataTypeSelect( id: string ) {
+    this.dataTypeID = id; // parseInt( id ) 
   }
   
   getData(): void {
