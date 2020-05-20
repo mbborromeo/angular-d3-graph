@@ -52,7 +52,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## To Do
 
-- Add dropdown options for deaths, tested, recovered (and not just cases)
 - Make mobile responsive (currently x-axis doesn't fit on mobile)
 - Add some animation when user changes between filter options/province selections
 - Use types correctly
