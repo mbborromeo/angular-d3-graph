@@ -21,14 +21,69 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
   @Input()
   data: DataModel[];
 
-  margin = {top: 20, right: 20, bottom: 30, left: 40};
+  @Input()
+  dataType: string;
+
+  @Input()
+  provinceTag: string;
+
+  margin = {top: 20, right: 20, bottom: 30, left: 50};
+
+  dataOfProvinceWeekly: Array<any>;
 
   constructor() {
     
   }  
 
+  reformatDateYMD( dmy ): string {
+    let newdate = dmy.split("-").reverse().join("-");
+    return newdate;
+  }
+
+  formatDateDMY( ymd ): string {
+    let day = ymd.getDate();
+    if( day < 10 ){
+      day = '0' + day;
+    }
+
+    let month = ymd.getMonth() + 1;
+    if( month < 10 ){
+      month = '0' + month;
+    }
+
+    const year = ymd.getFullYear();
+    const newdate = day + '-' + month + '-' + year;
+    return newdate;
+  }
+
+  // filter out dates so only every 7th day
+  filterDataAsWeekly( inputData ): Array<any> {    
+    const dateValuesOnly = inputData.map( d => this.reformatDateYMD(d.date) );
+    const dateMin = dateValuesOnly.reduce( function (a, b) { return a<b ? a:b; } ); // Math.min.apply(null, dateValuesOnly)
+    const dateMax = dateValuesOnly.reduce( function (a, b) { return a>b ? a:b; } ); // Math.max.apply(null, dateValuesOnly)
+    const datesEvery7Days = d3.timeDay.every(7).range( new Date(dateMin), new Date(dateMax) );
+    const datesEvery7DaysDMYarray = datesEvery7Days.map( i => this.formatDateDMY(i) );
+    
+    // works but for es7 only
+    // const dataOnlyWithWeeklyDates = data.filter( function(item) {
+    //   return datesEvery7DaysDMYarray.includes(item.date); 
+    // });
+    const dataOnlyWithWeeklyDates = inputData.filter( 
+      d => datesEvery7DaysDMYarray.indexOf( d.date ) > 0  // indexOf: if no match return -1, if match return index > 0
+    );
+
+    return dataOnlyWithWeeklyDates;
+  }
+
+  // move this into BarChart component so filtering happens there.
+  // show data of selected province and by week      
+  getFilteredData(): void {
+    const dataOfProvince = this.data.filter( d => d.pruid == this.provinceTag ); // parseInt(d.pruid)   
+    this.dataOfProvinceWeekly = this.filterDataAsWeekly( dataOfProvince );
+  }
+
   ngOnChanges(): void {
-    if (!this.data) { 
+    if (!this.data || !this.dataType || !this.provinceTag) { 
       return; //exit
     } 
 
@@ -36,7 +91,7 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
   }
 
   ngOnInit(): void {
-    if (!this.data) { 
+    if (!this.data || !this.dataType || !this.provinceTag) { 
       return; //exit
     } 
 
@@ -54,7 +109,7 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
   */
 
   onResize() {
-    if (!this.data) { 
+    if (!this.data || !this.dataType || !this.provinceTag) { 
       return;
     } 
 
@@ -63,17 +118,20 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
  
   private createChart(): void {
     // Remove previous SVG graph
-    //console.log('Remove previous SVG')
     d3.select('svg').remove();
 
     const element = this.chartContainer.nativeElement;
+
+    // filter out data type and province selection
+    this.getFilteredData();
     
     // Find max number of confirmed cases to set corresponding max height of graph
-    const numconfMax = this.data.map( d => d.numconf )
+    // element of interest = dataType
+    const valueMax = this.dataOfProvinceWeekly.map( d => d[this.dataType] ) // d => d.numconf
       .reduce( function (a, b){
           return Math.max(a, b);
-      }); 
-
+      });
+  
     // Append SVG to DOM
     //console.log('Append SVG to DOM')
     const svg = d3.select(element)
@@ -89,29 +147,26 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
     const x = d3.scaleBand()
       .rangeRound([0, contentWidth])
       .padding(0.1)
-      .domain( this.data.map(d => d.date) );
+      .domain( this.dataOfProvinceWeekly.map(d => d.date) );
 
     // Y axis range function
     const y = d3.scaleLinear()
       .rangeRound([contentHeight, 0])
-      .domain( [0, numconfMax] ); // [0, d3.max(data, d => d.numconf)]
+      .domain( [0, valueMax] ); // [0, d3.max(data, d => d.numconf)]
 
     // Append Graph
-    //console.log('Append Graph to SVG')
     const g = svg.append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
     // X axis
-    //console.log('Create X axis')
-    g.append('g').attr('class', 'axis axis--x')      
-        .transition().duration(600)
+    g.append('g').attr('class', 'axis axis--x')
+      .attr('class', 'domain')
       .attr('transform', 'translate(0,' + contentHeight + ')')
       .call(d3.axisBottom(x));
 
     // Y axis
-    //console.log('Create Y axis')
     g.append('g').attr('class', 'axis axis--y')
-      .call(d3.axisLeft(y)) // d3.axisLeft(y).ticks(10, '%')
+      .call(d3.axisLeft(y).tickSizeOuter(0)) // d3.axisLeft(y).ticks(10, '%')
       .append('text')      
       .attr('transform', 'rotate(-90)')
       .attr('y', 6)
@@ -120,14 +175,13 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
       .text('Confirmed Cases');
 
     // Bar chart columns
-    //console.log('Create Bars')
-    g.selectAll('.bar').data(this.data)
+    g.selectAll('.bar').data(this.dataOfProvinceWeekly)
       .enter().append('rect')
       .attr('class', 'bar')
       .attr('x', d => x(d.date))
-      .attr('y', d => y(d.numconf))  
+      .attr('y', d => y( d[this.dataType] ))  // y(d.numconf)
       .attr('width', x.bandwidth())      
          .transition().duration(600)
-      .attr('height', d => contentHeight - y(d.numconf));
+      .attr('height', d => contentHeight - y( d[this.dataType] )); // y(d.numconf)
   }
 }

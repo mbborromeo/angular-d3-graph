@@ -1,0 +1,14 @@
+<div *ngIf="dataTypeArray.length===0">
+  Data type choices loading...
+</div>
+
+<div *ngIf="dataTypeArray.length > 0">
+  <form [formGroup]="dataTypeForm">
+    <select formControlName="dataTypeSelection" (change)="onChange( $event )">
+      <option value="">Please select data type</option>
+      <option *ngFor="let type of dataTypeArray" value={{type.id}}>
+        {{type.value}}
+      </option>
+    </select>
+  </form>
+</div>

@@ -1,8 +1,8 @@
-<div *ngIf="provinceArray.length===0">
+<div *ngIf="!provinceArray">
   Province choices loading...
 </div>
 
-<div *ngIf="provinceArray.length > 0">
+<div *ngIf="provinceArray && provinceArray.length > 0">
   <form [formGroup]="provinceForm">
     <select formControlName="provinceSelection" (change)="onChange( $event )">
       <option value="">Please select province</option>
