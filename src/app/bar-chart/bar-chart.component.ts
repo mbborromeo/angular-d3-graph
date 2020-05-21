@@ -128,17 +128,22 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
     g.append('g').attr('class', 'axis axis--x')
       .attr('class', 'domain')
       .attr('transform', 'translate(0,' + contentHeight + ')')
-      .call(d3.axisBottom(x).tickSizeOuter(0));
+      .call(d3.axisBottom(x).tickSizeOuter(0))
+        .selectAll('text')
+        .attr("y", 16)
+        .attr("x", -16)
+        .attr("dy", ".35em")
+        .attr('transform', 'rotate(-45)');
 
     // Y axis
     g.append('g').attr('class', 'axis axis--y')
-      .call(d3.axisLeft(y).tickSizeOuter(0)) // d3.axisLeft(y).ticks(10, '%')
-      .append('text')      
-      .attr('transform', 'rotate(-90)')
-      .attr('y', 6)
-      .attr('dy', '0.71em')
-      .attr('text-anchor', 'end')
-      .text('Confirmed Cases');
+      .call(d3.axisLeft(y).tickSizeOuter(0)); // d3.axisLeft(y).ticks(10, '%')
+      // .append('text')      
+      // .attr('transform', 'rotate(-90)')
+      // .attr('y', 6)
+      // .attr('dy', '0.71em')
+      // .attr('text-anchor', 'end')
+      // .text('Confirmed Cases');
 
     // Bar chart columns
     g.selectAll('.bar').data(this.dataOfProvinceWeekly)
