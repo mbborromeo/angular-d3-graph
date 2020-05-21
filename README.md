@@ -58,7 +58,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 - Add a loading graphic while CSV is being fetched (can be slow going through a proxy)
 - Add labels on the graph axis
 - Maybe swap graph axis so that y-axis are the running dates from newest to oldest, and x-axis is the number of cases
-- Refactor so weekly date filter happens in Bar Chart component
 
 ## Extras
 
