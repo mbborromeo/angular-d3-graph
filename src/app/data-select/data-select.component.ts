@@ -34,10 +34,6 @@ export class DataSelectComponent implements OnInit {
         'value': 'Deaths' 
       },
       {
-        'id': 'numrecover',
-        'value': 'Recovered' 
-      },
-      {
         'id': 'numtested',
         'value': 'Tested' 
       }
