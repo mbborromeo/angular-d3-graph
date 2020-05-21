@@ -8,9 +8,10 @@
   <app-province-select [data]="dataFetched" (selectedProvince)="onProvinceSelect( $event )"></app-province-select>
 </div>
 
-<div *ngIf="dataLoading && provinceID && dataTypeID">Loading GRAPH...</div>
-<div *ngIf="!dataLoading && provinceID && dataTypeID">
-  <app-bar-chart [dataType]="dataTypeID" [provinceTag]="provinceID" [data]="dataFetched"></app-bar-chart>
+<br /><br />
+
+<div *ngIf="dataFetched && !dataLoading && dataTypeID && provinceID">
+  <app-bar-chart [data]="dataFetched" [dataType]="dataTypeID" [provinceTag]="provinceID"></app-bar-chart>
 </div>
 
 <router-outlet></router-outlet>

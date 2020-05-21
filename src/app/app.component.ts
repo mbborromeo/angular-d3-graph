@@ -23,15 +23,6 @@ export class AppComponent implements OnInit {
   constructor() { // private http: HttpClient 
 
   }
-
-  // receive Event Emitter from child province-select.component.ts: onChange/emit()
-  onProvinceSelect( id: string ) {
-    this.provinceID = id; // parseInt( id ) 
-  }
-
-  onDataTypeSelect( id: string ) {
-    this.dataTypeID = id; // parseInt( id ) 
-  }
   
   getData(): void {
     const self = this; // 'this' context changes within d3.csv() function
@@ -49,6 +40,15 @@ export class AppComponent implements OnInit {
       self.dataLoading = false;
     });
   }  
+
+  // receive Event Emitter from child province-select.component.ts: onChange/emit()
+  onProvinceSelect( id: string ) {
+    this.provinceID = id; // parseInt( id ) 
+  }
+
+  onDataTypeSelect( id: string ) {
+    this.dataTypeID = id; // parseInt( id ) 
+  }
 
   ngOnInit(): void {
     this.getData();
