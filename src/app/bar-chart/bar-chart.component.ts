@@ -27,7 +27,7 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
   @Input()
   provinceTag: string;
 
-  margin = {top: 20, right: 20, bottom: 30, left: 50};
+  margin = {top: 20, right: 20, bottom: 30, left: 60};
 
   dataOfProvinceWeekly: Array<any>;
 
@@ -83,13 +83,13 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
   }
 
   private createChart(): void {
+    // filter out data type and province selection
+    this.getFilteredData();
+
     // Remove previous SVG graph
     d3.select('svg').remove();
 
     const element = this.chartContainer.nativeElement;
-
-    // filter out data type and province selection
-    this.getFilteredData();
     
     // Find max number of confirmed cases to set corresponding max height of graph
     // element of interest = dataType
