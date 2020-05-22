@@ -8,7 +8,7 @@
   <app-province-select [data]="dataFetched" (selectedProvince)="onProvinceSelect( $event )"></app-province-select>
 </div>
 
-<br /><br />
+<br />
 
 <div *ngIf="dataFetched && !dataLoading && dataTypeID && provinceID">
   <app-bar-chart [data]="dataFetched" [dataType]="dataTypeID" [provinceTag]="provinceID"></app-bar-chart>

@@ -2,7 +2,7 @@
   Province choices loading...
 </div>
 
-<div *ngIf="provinceArray && provinceArray.length > 0">
+<span *ngIf="provinceArray && provinceArray.length > 0">
   <form [formGroup]="provinceForm">
     <select formControlName="provinceSelection" (change)="onChange( $event )">
       <option value="">Please select province</option>
@@ -11,4 +11,4 @@
       </option>
     </select>
   </form>
-</div>
+</span>
