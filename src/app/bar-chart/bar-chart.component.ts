@@ -130,9 +130,9 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
       .attr('transform', 'translate(0,' + contentHeight + ')')
       .call(d3.axisBottom(x).tickSizeOuter(0))
         .selectAll('text')
-        .attr("y", 16)
-        .attr("x", -16)
-        .attr("dy", ".35em")
+        .attr("y", 8)
+        .attr("x", -26)
+        // .attr("dy", ".35em")
         .attr('transform', 'rotate(-45)');
 
     // Y axis

@@ -2,7 +2,7 @@
   Data set choices loading...
 </div>
 
-<div *ngIf="dataTypeArray.length > 0">
+<span *ngIf="dataTypeArray && dataTypeArray.length > 0">
   <form [formGroup]="dataTypeForm">
     <select formControlName="dataTypeSelection" (change)="onChange( $event )">
       <option value="">Please select data set</option>
@@ -11,4 +11,4 @@
       </option>
     </select>
   </form>
-</div>
+</span>
