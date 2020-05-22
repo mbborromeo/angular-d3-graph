@@ -8,10 +8,12 @@ h1 {
 }
 
 .chart-select-wrapper {
-  height: 8%;
   background-color: #EAEAEA;
+  padding: 10px 0 10px 10px;
 }
 
 #chart-wrapper {
-  height: 92%;
+  /* height: 92%; */
+  padding-top: 10px;
+  min-height: 90%;
 }
