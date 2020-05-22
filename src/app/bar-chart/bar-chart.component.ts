@@ -1,7 +1,7 @@
 import { Component, OnChanges, OnInit, AfterViewInit, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { DataModel } from 'src/app/data/data.model';
-import { transition } from 'd3';
+// import { transition } from 'd3';
 
 @Component({
   selector: 'app-bar-chart',  
@@ -131,7 +131,7 @@ export class BarChartComponent implements OnChanges, OnInit { // AfterViewInit
       .call(d3.axisBottom(x).tickSizeOuter(0))
         .selectAll('text')
         .attr("y", 8)
-        .attr("x", -26)
+        .attr("x", -28)
         // .attr("dy", ".35em")
         .attr('transform', 'rotate(-45)');
 
