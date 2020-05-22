@@ -1,16 +1,14 @@
-<div *ngIf="!dataFetched && dataLoading">
+<div class="chart-select-wrapper" *ngIf="!dataFetched && dataLoading">
   Determining options...
 </div>
-<div *ngIf="dataFetched && !dataLoading">
+<div class="chart-select-wrapper" *ngIf="dataFetched && !dataLoading">
   Number of COVID-19 
   <app-data-select (selectedDataType)="onDataTypeSelect( $event )"></app-data-select>    
   in
   <app-province-select [data]="dataFetched" (selectedProvince)="onProvinceSelect( $event )"></app-province-select>
 </div>
 
-<br />
-
-<div *ngIf="dataFetched && !dataLoading && dataTypeID && provinceID">
+<div id="chart-wrapper" *ngIf="dataFetched && !dataLoading && dataTypeID && provinceID">
   <app-bar-chart [data]="dataFetched" [dataType]="dataTypeID" [provinceTag]="provinceID"></app-bar-chart>
 </div>
 
