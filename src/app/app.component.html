@@ -10,6 +10,10 @@
 
 <div id="chart-wrapper" *ngIf="dataFetched && !dataLoading && dataTypeID && provinceID">
   <app-bar-chart [data]="dataFetched" [dataType]="dataTypeID" [provinceTag]="provinceID"></app-bar-chart>
+  <span>
+    <br /><br />
+    Data source: <a href="{{ csvUrl }}" target="_blank">Health Infobase Canada</a>
+  </span>
 </div>
 
 <router-outlet></router-outlet>
